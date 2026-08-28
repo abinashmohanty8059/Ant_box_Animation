@@ -495,6 +495,45 @@
         duration: 1.2
       }, 0);
     }
+
+    // Brand Footer Scroll-Reactive Animation (ANTBOX)
+    const brandStrip = $('#brandFooterStrip');
+    const partAnt = $('.part-ant');
+    const partBox = $('.part-box');
+
+    if (brandStrip && partAnt && partBox) {
+      const getStartTranslation = () => {
+        return window.innerWidth < 768 ? '22vw' : '35vw';
+      };
+
+      // Set initial states
+      gsap.set(partAnt, { x: () => `-${getStartTranslation()}` });
+      gsap.set(partBox, { x: () => getStartTranslation() });
+
+      // Animate ANT left-to-center
+      gsap.to(partAnt, {
+        x: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: brandStrip,
+          start: 'top bottom', // when strip top enters viewport bottom
+          end: 'bottom bottom', // when strip bottom meets viewport bottom
+          scrub: 1
+        }
+      });
+
+      // Animate BOX right-to-center
+      gsap.to(partBox, {
+        x: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: brandStrip,
+          start: 'top bottom',
+          end: 'bottom bottom',
+          scrub: 1
+        }
+      });
+    }
   }
 
   /* ── Masked Heading — Video Through Text ─────────────────── */

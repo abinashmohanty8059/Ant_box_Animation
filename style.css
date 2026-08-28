@@ -2800,3 +2800,41 @@ html.lenis body {
 .masked-heading.mh-ready .masked-heading__defs text {
   transform: translateY(var(--mh-rise, 0px));
 }
+
+/* ── Brand Footer Strip ────────────────────────────────── */
+.brand-footer-strip {
+  background: var(--bg); /* Matches AntBox warm off-white theme */
+  width: 100%;
+  overflow: hidden; /* Crucial: prevents horizontal scrollbar */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-top: 5rem;
+  padding-bottom: 2.5rem; /* Added bottom padding to provide comfortable breathing room */
+  border-top: 1px solid var(--border-light);
+  margin-top: 3rem;
+}
+
+.brand-footer-wordmark {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  line-height: 1.0; /* Full line-height to ensure all glyph parts are fully rendered and visible */
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(5rem, 19vw, 22rem); /* Decreased font size for better visual balance */
+  color: var(--text); /* Existing near-black brand color */
+  user-select: none;
+  pointer-events: none;
+  white-space: nowrap;
+  margin-bottom: 0; /* Removed negative margin completely to prevent any bottom text cutoff */
+  letter-spacing: -0.02em; /* Ensures ANT and BOX visually touch and form one solid wordmark */
+}
+
+.wordmark-part {
+  display: inline-block;
+  will-change: transform;
+  transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+}
