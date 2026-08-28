@@ -974,6 +974,50 @@
 
 
 <!-- ============================================================
+     MASKED HEADING — VIDEO THROUGH TEXT
+     ============================================================ -->
+<section id="masked-heading-section" aria-hidden="true">
+  <h2
+    id="maskedHeading"
+    class="masked-heading"
+    style="text-align:center; font-weight:700; letter-spacing:-0.03em; line-height:1.06;"
+  >
+    <!-- Invisible measure layer for layout -->
+    <span class="masked-heading__measure" id="mhMeasure">
+      <span class="masked-heading__word" id="mhWord0">Built<i class="masked-heading__baseline" id="mhBase0"></i></span>
+      <span class="masked-heading__word" id="mhWord1">for<i class="masked-heading__baseline" id="mhBase1"></i></span>
+      <span class="masked-heading__word" id="mhWord2">the<i class="masked-heading__baseline" id="mhBase2"></i></span>
+      <span class="masked-heading__word" id="mhWord3">Future<i class="masked-heading__baseline" id="mhBase3"></i></span>
+    </span>
+
+    <!-- SVG clip path definition -->
+    <svg class="masked-heading__defs" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="mhClip" clipPathUnits="userSpaceOnUse">
+          <text id="mhG0">Built</text>
+          <text id="mhG1">for</text>
+          <text id="mhG2">the</text>
+          <text id="mhG3">Future</text>
+        </clipPath>
+      </defs>
+    </svg>
+
+    <!-- Reveal layer: video clipped through text -->
+    <span class="masked-heading__reveal" id="mhReveal">
+      <span class="masked-heading__clip" style="clip-path:url(#mhClip);">
+        <span class="masked-heading__media" id="mhMedia">
+          <video
+            class="masked-heading__source"
+            src="https://ik.imagekit.io/n9uuondomb/AntBox_training/Team_working.mp4?updatedAt=1787830065805"
+            autoplay muted loop playsinline
+          ></video>
+        </span>
+      </span>
+    </span>
+  </h2>
+</section>
+
+<!-- ============================================================
      FINAL CTA
      ============================================================ -->
 <section id="cta" aria-labelledby="cta-heading">

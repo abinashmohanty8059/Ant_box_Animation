@@ -2303,3 +2303,93 @@ html.lenis, html.lenis body {
   scroll-behavior: auto !important;
 }
 
+/* ============================================================
+   MASKED HEADING — VIDEO THROUGH TEXT
+   ============================================================ */
+#masked-heading-section {
+  background: #0a0a0c;
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.masked-heading {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1400px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The invisible text layer drives natural height & wrapping */
+.masked-heading__measure {
+  display: block;
+  color: transparent;
+  user-select: none;
+  pointer-events: none;
+}
+
+.masked-heading__word {
+  display: inline-block;
+  white-space: pre;
+}
+
+.masked-heading__word:not(:last-child)::after {
+  content: ' ';
+}
+
+.masked-heading__baseline {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* SVG that holds the clip-path definitions — visually hidden */
+.masked-heading__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Absolute reveal overlay that stretches over the measure layer */
+.masked-heading__reveal {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+
+/* The clipping boundary */
+.masked-heading__clip {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+}
+
+/* The video/image that shows through letter cutouts */
+.masked-heading__media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  will-change: transform, filter;
+}
+
+.masked-heading__source {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Rise reveal initial state — words hidden below (JS sets this after init) */
+.masked-heading.mh-ready .masked-heading__defs text {
+  transform: translateY(var(--mh-rise, 0px));
+}

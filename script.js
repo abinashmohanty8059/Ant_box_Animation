@@ -497,6 +497,135 @@
     }
   }
 
+  /* ── Masked Heading — Video Through Text ─────────────────── */
+  (function initMaskedHeading() {
+    const root    = $('#maskedHeading');
+    const measure = $('#mhMeasure');
+    const media   = $('#mhMedia');
+    const reveal  = $('#mhReveal');
+    if (!root || !measure || !media) return;
+
+    const FILL_SCALE  = 1.28;
+    const PARALLAX    = 28;
+    const DRIFT       = 16;
+    const TEXT_SCALE  = 0.115; // font-size = container-width * TEXT_SCALE
+
+    const words = ['Built', 'for', 'the', 'Future'];
+    const glyphEls = words.map((_, i) => $(`#mhG${i}`));
+    const wordEls  = words.map((_, i) => $(`#mhWord${i}`));
+    const baseEls  = words.map((_, i) => $(`#mhBase${i}`));
+
+    const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+
+    // Current and target offset for smooth lerp
+    let ox = 0, oy = 0, tx = 0, ty = 0;
+    let clock = 0, last = performance.now();
+    let rafId = 0;
+
+    /* Sync: measure DOM → SVG text position & font */
+    function sync() {
+      const W = root.clientWidth;
+      const fs = clamp(W * TEXT_SCALE, 28, 220);
+      root.style.fontSize = `${fs.toFixed(1)}px`;
+
+      const cs = window.getComputedStyle(measure);
+
+      for (let i = 0; i < words.length; i++) {
+        const g = glyphEls[i];
+        const w = wordEls[i];
+        const b = baseEls[i];
+        if (!g || !w || !b) continue;
+
+        // x = word's left offset inside measure container
+        // y = baseline element's offsetTop (= top of line + line-height)
+        g.setAttribute('x', `${w.offsetLeft}`);
+        g.setAttribute('y', `${b.offsetTop}`);
+        g.style.fontFamily  = cs.fontFamily;
+        g.style.fontSize    = cs.fontSize;
+        g.style.fontWeight  = cs.fontWeight;
+        g.style.letterSpacing = cs.letterSpacing;
+      }
+      place();
+    }
+
+    /* Place: apply parallax + drift transform to video */
+    function place() {
+      const W  = root.clientWidth;
+      const H  = root.clientHeight;
+      const maxX = Math.max(0, ((FILL_SCALE - 1) / 2) * W);
+      const maxY = Math.max(0, ((FILL_SCALE - 1) / 2) * H);
+      media.style.transform =
+        `translate3d(${clamp(ox, -maxX, maxX).toFixed(2)}px,` +
+        `${clamp(oy, -maxY, maxY).toFixed(2)}px, 0)` +
+        ` scale(${FILL_SCALE})`;
+    }
+
+    /* Animation loop: drift + mousemove lerp */
+    function frame(now) {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      clock += dt;
+
+      const dx = Math.sin(clock * 0.21) * DRIFT;
+      const dy = Math.cos(clock * 0.17) * DRIFT * 0.6;
+
+      const ease = 1 - Math.exp(-dt / 0.18);
+      ox += (tx + dx - ox) * ease;
+      oy += (ty + dy - oy) * ease;
+
+      place();
+      rafId = requestAnimationFrame(frame);
+    }
+
+    /* Mousemove parallax */
+    function onMove(e) {
+      const r  = root.getBoundingClientRect();
+      const nx = ((e.clientX - r.left)  / (r.width  || 1)) * 2 - 1;
+      const ny = ((e.clientY - r.top)   / (r.height || 1)) * 2 - 1;
+      tx = clamp(nx, -1, 1) * -PARALLAX;
+      ty = clamp(ny, -1, 1) * -PARALLAX;
+    }
+    function onLeave() { tx = 0; ty = 0; }
+
+    root.addEventListener('pointermove', onMove);
+    root.addEventListener('pointerleave', onLeave);
+
+    /* ResizeObserver keeps SVG text positions accurate */
+    const ro = new ResizeObserver(sync);
+    ro.observe(root);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(sync).catch(() => {});
+    }
+    sync();
+
+    /* Start the RAF drift loop */
+    rafId = requestAnimationFrame(frame);
+
+    /* GSAP rise-reveal on scroll-into-view */
+    if (typeof gsap !== 'undefined' && !prefersReducedMotion()) {
+      const riseDistance = () => (parseFloat(window.getComputedStyle(root).fontSize) || 60) * 1.15;
+
+      // Set initial state: glyphs hidden below via GSAP
+      const validGlyphs = glyphEls.filter(Boolean);
+      gsap.set(validGlyphs, { y: () => riseDistance() });
+      if (reveal) reveal.style.opacity = '1';
+
+      const io = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) {
+          gsap.to(validGlyphs, {
+            y: 0,
+            duration: 1.1,
+            stagger: 0.09,
+            ease: 'power4.out',
+            overwrite: 'auto'
+          });
+          io.disconnect();
+        }
+      }, { threshold: 0.25 });
+      io.observe(root);
+    }
+  })();
+
   /* ── Init complete ───────────────────────────────────────── */
   console.log('%c🐜 AntBox loaded', 'color:#7c3aed;font-weight:bold;font-size:14px;');
 
