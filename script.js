@@ -26,8 +26,8 @@
   updateNavbar();
 
   /* ── Mobile menu ───────────────────────────────────────── */
-  const hamburger   = $('#hamburger');
-  const mobileMenu  = $('#mobileMenu');
+  const hamburger = $('#hamburger');
+  const mobileMenu = $('#mobileMenu');
   let menuOpen = false;
 
   function openMobileMenu() {
@@ -60,14 +60,14 @@
   });
 
   /* ── Hero Parallax ─────────────────────────────────────── */
-  const heroBg   = $('#heroBg');
+  const heroBg = $('#heroBg');
   const heroWrap = $('#hero');
 
   if (heroBg && !prefersReducedMotion()) {
     let mouseX = 0, mouseY = 0;
-    let curX   = 0, curY   = 0;
+    let curX = 0, curY = 0;
     let targetScrollY = 0;
-    let curScrollY    = 0;
+    let curScrollY = 0;
 
     // Mouse parallax (desktop only)
     const isPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -75,8 +75,8 @@
     if (isPointer) {
       heroWrap.addEventListener('mousemove', (e) => {
         const rect = heroWrap.getBoundingClientRect();
-        mouseX = ((e.clientX - rect.left) / rect.width  - 0.5) * 35; // Sensitivity
-        mouseY = ((e.clientY - rect.top ) / rect.height - 0.5) * 22;
+        mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 35; // Sensitivity
+        mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 22;
       }, { passive: true });
 
       heroWrap.addEventListener('mouseleave', () => {
@@ -90,7 +90,7 @@
       targetScrollY = window.scrollY;
     }, { passive: true });
 
-    const ctaBg   = $('#ctaBg');
+    const ctaBg = $('#ctaBg');
     const ctaWrap = $('#cta');
 
     function updateParallax() {
@@ -215,7 +215,7 @@
         if (window.lenis) {
           window.lenis.scrollTo(target, { offset: -navH - 16 });
         } else {
-          const top  = target.getBoundingClientRect().top + window.scrollY - navH - 16;
+          const top = target.getBoundingClientRect().top + window.scrollY - navH - 16;
           window.scrollTo({ top, behavior: 'smooth' });
         }
       }
@@ -238,8 +238,8 @@
     $$('.why-card').forEach(card => {
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 4;
-        const y = ((e.clientY - rect.top ) / rect.height - 0.5) * 4;
+        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 4;
+        const y = ((e.clientY - rect.top) / rect.height - 0.5) * 4;
         card.style.transform = `perspective(600px) rotateY(${x}deg) rotateX(${-y}deg) translateZ(4px)`;
         card.style.transition = 'transform 0.1s ease';
       });
@@ -279,10 +279,10 @@
     cards.forEach((card, idx) => {
       // Calculate relative position in the stack starting from activeIndex
       const pos = (idx - activeIndex + cards.length) % cards.length;
-      
+
       // Remove all stack position classes
       card.classList.remove('pos-1', 'pos-2', 'pos-3', 'pos-4', 'active');
-      
+
       // Assign stack position class based on index offset
       if (pos === 0) {
         card.classList.add('pos-1', 'active');
@@ -352,13 +352,13 @@
     startDeckRotation();
   }
   /* ── Mini Chat Widget ────────────────────────────────────── */
-  const chatTrigger  = $('#chatTrigger');
-  const chatWindow   = $('#chatWindow');
+  const chatTrigger = $('#chatTrigger');
+  const chatWindow = $('#chatWindow');
   const chatCloseBtn = $('#chatCloseBtn');
-  const chatInput    = $('#chatInput');
-  const chatSendBtn  = $('#chatSendBtn');
+  const chatInput = $('#chatInput');
+  const chatSendBtn = $('#chatSendBtn');
   const chatMessages = $('#chatMessages');
-  const chatWelcome  = $('#chatWelcome');
+  const chatWelcome = $('#chatWelcome');
   let chatLottieAnim = null;
 
   // Initialize Lottie Animation
@@ -499,21 +499,21 @@
 
   /* ── Masked Heading — Video Through Text ─────────────────── */
   (function initMaskedHeading() {
-    const root    = $('#maskedHeading');
+    const root = $('#maskedHeading');
     const measure = $('#mhMeasure');
-    const media   = $('#mhMedia');
-    const reveal  = $('#mhReveal');
+    const media = $('#mhMedia');
+    const reveal = $('#mhReveal');
     if (!root || !measure || !media) return;
 
-    const FILL_SCALE  = 1.28;
-    const PARALLAX    = 28;
-    const DRIFT       = 16;
-    const TEXT_SCALE  = 0.115; // font-size = container-width * TEXT_SCALE
+    const FILL_SCALE = 1.28;
+    const PARALLAX = 28;
+    const DRIFT = 16;
+    const TEXT_SCALE = 0.115; // font-size = container-width * TEXT_SCALE
 
     const words = ['Built', 'for', 'the', 'Future'];
     const glyphEls = words.map((_, i) => $(`#mhG${i}`));
-    const wordEls  = words.map((_, i) => $(`#mhWord${i}`));
-    const baseEls  = words.map((_, i) => $(`#mhBase${i}`));
+    const wordEls = words.map((_, i) => $(`#mhWord${i}`));
+    const baseEls = words.map((_, i) => $(`#mhBase${i}`));
 
     const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
 
@@ -540,9 +540,9 @@
         // y = baseline element's offsetTop (= top of line + line-height)
         g.setAttribute('x', `${w.offsetLeft}`);
         g.setAttribute('y', `${b.offsetTop}`);
-        g.style.fontFamily  = cs.fontFamily;
-        g.style.fontSize    = cs.fontSize;
-        g.style.fontWeight  = cs.fontWeight;
+        g.style.fontFamily = cs.fontFamily;
+        g.style.fontSize = cs.fontSize;
+        g.style.fontWeight = cs.fontWeight;
         g.style.letterSpacing = cs.letterSpacing;
       }
       place();
@@ -550,8 +550,8 @@
 
     /* Place: apply parallax + drift transform to video */
     function place() {
-      const W  = root.clientWidth;
-      const H  = root.clientHeight;
+      const W = root.clientWidth;
+      const H = root.clientHeight;
       const maxX = Math.max(0, ((FILL_SCALE - 1) / 2) * W);
       const maxY = Math.max(0, ((FILL_SCALE - 1) / 2) * H);
       media.style.transform =
@@ -579,9 +579,9 @@
 
     /* Mousemove parallax */
     function onMove(e) {
-      const r  = root.getBoundingClientRect();
-      const nx = ((e.clientX - r.left)  / (r.width  || 1)) * 2 - 1;
-      const ny = ((e.clientY - r.top)   / (r.height || 1)) * 2 - 1;
+      const r = root.getBoundingClientRect();
+      const nx = ((e.clientX - r.left) / (r.width || 1)) * 2 - 1;
+      const ny = ((e.clientY - r.top) / (r.height || 1)) * 2 - 1;
       tx = clamp(nx, -1, 1) * -PARALLAX;
       ty = clamp(ny, -1, 1) * -PARALLAX;
     }
@@ -594,7 +594,7 @@
     const ro = new ResizeObserver(sync);
     ro.observe(root);
     if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(sync).catch(() => {});
+      document.fonts.ready.then(sync).catch(() => { });
     }
     sync();
 
