@@ -672,114 +672,133 @@
 
 
 /* ============================================================
-   BOX ANIMATION — Scroll-Driven Frame-by-Frame Canvas Renderer
-   Runs outside the main IIFE so it can reference window.lenis
-   and the global gsap / ScrollTrigger when they become available.
+   WHY ANTBOX — Scroll-Driven Canvas + Text Overlay
+   Targets the #why section which now acts as the scroll spacer.
    ============================================================ */
 (function initBoxAnimation() {
   'use strict';
 
   /* ── Constants ───────────────────────────────────────────── */
-  const TOTAL_FRAMES  = 100;
-  const FRAME_DIR     = 'frames/';
-  const SECTION_ID    = 'box-animation';
-  const CANVAS_ID     = 'boxCanvas';
-  const LOADER_ID     = 'box-anim-loader';
-  const LOADER_BAR_ID = 'boxLoaderBar';
-  const HINT_ID       = 'box-scroll-hint';
+  var TOTAL_FRAMES = 100;
+  var FRAME_DIR    = 'frames/';
 
   /* ── DOM refs ────────────────────────────────────────────── */
-  const section   = document.getElementById(SECTION_ID);
-  const canvas    = document.getElementById(CANVAS_ID);
-  const loader    = document.getElementById(LOADER_ID);
-  const loaderBar = document.getElementById(LOADER_BAR_ID);
-  const hint      = document.getElementById(HINT_ID);
+  var section   = document.getElementById('why');
+  var canvas    = document.getElementById('boxCanvas');
+  var loader    = document.getElementById('box-anim-loader');
+  var loaderBar = document.getElementById('boxLoaderBar');
+  var hint      = document.getElementById('box-scroll-hint');
 
-  if (!section || !canvas) return; // guard: elements must exist
+  /* Text overlay elements */
+  var headEl = document.getElementById('whyOverlayHead');
+  var card1  = document.getElementById('whyCard1');
+  var card2  = document.getElementById('whyCard2');
+  var card3  = document.getElementById('whyCard3');
 
-  const ctx = canvas.getContext('2d');
-  const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap at 2× for perf
+  if (!section || !canvas) return;
+
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
   /* ── Frame cache ─────────────────────────────────────────── */
-  const frames = new Array(TOTAL_FRAMES).fill(null);
-  let loadedCount = 0;
-  let frameWidth  = 0;
-  let frameHeight = 0;
+  var frames      = new Array(TOTAL_FRAMES).fill(null);
+  var loadedCount = 0;
+  var frameWidth  = 0;
+  var frameHeight = 0;
+  var currentFrameIndex = 0;
 
-  /* Pad integer to 3-digit string: 1 → "001" */
-  function pad3(n) {
-    return String(n).padStart(3, '0');
-  }
+  function pad3(n) { return String(n).padStart(3, '0'); }
 
   /* ── Canvas sizing ───────────────────────────────────────── */
   function resizeCanvas() {
     if (!frameWidth || !frameHeight) return;
-
-    const aspect = frameWidth / frameHeight;
-    const vw     = window.innerWidth;
-    const vh     = window.innerHeight;
-
-    let w, h;
-    if (vw / vh > aspect) {
-      h = vh; w = h * aspect;
-    } else {
-      w = vw; h = w / aspect;
-    }
-
+    var aspect = frameWidth / frameHeight;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+    var w, h;
+    if (vw / vh > aspect) { h = vh; w = h * aspect; }
+    else                   { w = vw; h = w / aspect; }
     canvas.style.width  = w + 'px';
     canvas.style.height = h + 'px';
     canvas.width  = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
-
-    // Scale context for high-DPI
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
     drawFrame(currentFrameIndex);
   }
 
   /* ── Frame rendering ─────────────────────────────────────── */
-  let currentFrameIndex = 0;
-
   function drawFrame(index) {
-    const img = frames[index];
+    var img = frames[index];
     if (!img || !img.complete || !img.naturalWidth) return;
-
-    const w = canvas.width  / dpr;
-    const h = canvas.height / dpr;
+    var w = canvas.width / dpr;
+    var h = canvas.height / dpr;
     ctx.clearRect(0, 0, w, h);
     ctx.drawImage(img, 0, 0, w, h);
   }
 
-  /* ── Progress → frame index ──────────────────────────────── */
   function getFrameIndex(progress) {
-    const raw = Math.round(progress * (TOTAL_FRAMES - 1));
-    return Math.max(0, Math.min(TOTAL_FRAMES - 1, raw));
+    var raw = Math.round(progress * (TOTAL_FRAMES - 1));
+    return raw < 0 ? 0 : raw > TOTAL_FRAMES - 1 ? TOTAL_FRAMES - 1 : raw;
+  }
+
+  /* ── Easing helpers ──────────────────────────────────────── */
+  function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function fadeIn(p, s, e)  { return clamp01((p - s) / Math.max(e - s, 0.001)); }
+  function fadeOut(p, s, e) { return 1 - clamp01((p - s) / Math.max(e - s, 0.001)); }
+
+  /* ── Text overlay sync ───────────────────────────────────── */
+  function updateOverlay(p) {
+    /* Heading: full until 0.18, fades out 0.18 → 0.36 */
+    if (headEl) {
+      var ho  = p < 0.18 ? 1 : fadeOut(p, 0.18, 0.36);
+      var hty = (1 - ho) * -16;
+      headEl.style.opacity   = ho;
+      headEl.style.transform = 'translateX(-50%) translateY(' + hty + 'px)';
+    }
+
+    /* Card helper — uses data-slide ("-1" = from above, "1" = from below) */
+    function applyCard(el) {
+      if (!el) return;
+      var dataIn   = parseFloat(el.getAttribute('data-in')  || '0.2');
+      var dataOut  = parseFloat(el.getAttribute('data-out') || '0.9');
+      var slideDir = parseFloat(el.getAttribute('data-slide') || '1'); /* -1 top, +1 bottom */
+      var oi = fadeIn (p, dataIn,           dataIn  + 0.12);
+      var oo = dataOut > 1 ? 1 : fadeOut(p, dataOut - 0.10, dataOut);
+      var op = oi * oo;
+      /* Slide from 20px in the card's natural entry direction to 0 */
+      var ty = (1 - oi) * 20 * slideDir;
+      el.style.opacity   = op;
+      el.style.transform = 'translateY(' + ty + 'px)';
+    }
+
+    applyCard(card1);
+    applyCard(card2);
+    applyCard(card3);
   }
 
   /* ── Interpolated render loop ────────────────────────────── */
-  let targetProgress  = 0;
-  let currentProgress = 0;
-  let rafPending      = false;
-  let hintHidden      = false;
+  var targetProgress  = 0;
+  var currentProgress = 0;
+  var rafPending      = false;
+  var hintHidden      = false;
 
   function scheduleRender() {
-    if (!rafPending) {
-      rafPending = true;
-      requestAnimationFrame(renderLoop);
-    }
+    if (!rafPending) { rafPending = true; requestAnimationFrame(renderLoop); }
   }
 
   function renderLoop() {
     rafPending = false;
     currentProgress += (targetProgress - currentProgress) * 0.18;
 
-    const idx = getFrameIndex(currentProgress);
+    var idx = getFrameIndex(currentProgress);
     if (idx !== currentFrameIndex) {
       currentFrameIndex = idx;
       drawFrame(idx);
     }
 
-    if (Math.abs(targetProgress - currentProgress) > 0.0004) {
+    updateOverlay(currentProgress);
+
+    if (Math.abs(targetProgress - currentProgress) > 0.0003) {
       rafPending = true;
       requestAnimationFrame(renderLoop);
     }
@@ -787,16 +806,14 @@
 
   function onProgress(p) {
     targetProgress = p;
-
-    if (p > 0.01 && !hintHidden && hint) {
+    if (p > 0.02 && !hintHidden && hint) {
       hint.classList.add('hidden');
       hintHidden = true;
     }
-
     scheduleRender();
   }
 
-  /* ── Fallback: native scroll ─────────────────────────────── */
+  /* ── Native scroll fallback ──────────────────────────────── */
   function initNativeScroll() {
     function handleScroll() {
       var rect     = section.getBoundingClientRect();
@@ -808,11 +825,10 @@
     handleScroll();
   }
 
-  /* ── GSAP ScrollTrigger integration ─────────────────────── */
+  /* ── GSAP ScrollTrigger ──────────────────────────────────── */
   function initGSAPScroll() {
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
-
       ScrollTrigger.create({
         trigger : section,
         start   : 'top top',
@@ -820,8 +836,6 @@
         scrub   : true,
         onUpdate: function(self) { onProgress(self.progress); }
       });
-
-      // Keep ScrollTrigger in sync with Lenis smooth scroll
       if (window.lenis) {
         window.lenis.on('scroll', ScrollTrigger.update);
       }
@@ -835,39 +849,32 @@
     for (var i = 0; i < TOTAL_FRAMES; i++) {
       (function(index) {
         var img = new Image();
-        var url = FRAME_DIR + pad3(index + 1) + '.png';
-
         img.onload = function() {
           frames[index] = img;
-
-          // Capture dimensions from the first successful decode
           if (!frameWidth && img.naturalWidth) {
             frameWidth  = img.naturalWidth;
             frameHeight = img.naturalHeight;
-            resizeCanvas(); // size the canvas correctly
-            drawFrame(0);   // show frame 1 straight away
+            resizeCanvas();
+            drawFrame(0);
+            updateOverlay(0);
           }
-
           loadedCount++;
           if (loaderBar) {
             loaderBar.style.width = ((loadedCount / TOTAL_FRAMES) * 100) + '%';
           }
-
           if (loadedCount >= TOTAL_FRAMES) {
             if (loader) setTimeout(function() { loader.classList.add('hidden'); }, 400);
-            drawFrame(currentFrameIndex); // refresh at current scroll pos
+            drawFrame(currentFrameIndex);
           }
         };
-
         img.onerror = function() {
           loadedCount++;
           if (loadedCount >= TOTAL_FRAMES && loader) {
             setTimeout(function() { loader.classList.add('hidden'); }, 400);
           }
         };
-
-        img.src = url;
-        frames[index] = img; // store immediately so drawFrame can check .complete
+        img.src = FRAME_DIR + pad3(index + 1) + '.png';
+        frames[index] = img;
       }(i));
     }
   }
@@ -881,12 +888,8 @@
 
   /* ── Boot ────────────────────────────────────────────────── */
   preloadFrames();
-
-  // Defer scroll wiring until the page JS has fully set up GSAP/Lenis
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(initGSAPScroll, 0);
-    });
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(initGSAPScroll, 0); });
   } else {
     setTimeout(initGSAPScroll, 0);
   }

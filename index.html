@@ -103,34 +103,6 @@
 
 
   <!-- ============================================================
-     ANTBOX PACKAGING — SCROLL-DRIVEN FRAME ANIMATION
-     ============================================================ -->
-  <section id="box-animation" aria-label="AntBox packaging reveal">
-    <!-- The sticky container pins in the viewport while the tall section scrolls -->
-    <div class="box-anim-sticky">
-
-      <!-- Loading progress overlay — fades out once all frames are cached -->
-      <div id="box-anim-loader" aria-hidden="true">
-        <div class="box-loader-bar-wrap">
-          <div class="box-loader-bar" id="boxLoaderBar"></div>
-        </div>
-        <p class="box-loader-text">Loading animation…</p>
-      </div>
-
-      <!-- Single canvas — frames are drawn here for maximum performance -->
-      <canvas id="boxCanvas" aria-hidden="true"></canvas>
-
-      <!-- Scroll cue — fades away once the user starts scrolling through the section -->
-      <div id="box-scroll-hint" aria-hidden="true">
-        <div class="box-hint-arrow"></div>
-        <span class="box-hint-label">Scroll to reveal</span>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ============================================================
      STATISTICS + MARQUEE
      ============================================================ -->
   <section id="stats" aria-label="Platform impact">
@@ -1026,45 +998,63 @@
 
 
   <!-- ============================================================
-     WHY ANTBOX
+     WHY ANTBOX — SCROLL-DRIVEN BOX ANIMATION WITH TEXT OVERLAY
      ============================================================ -->
   <section id="why" aria-labelledby="why-heading">
-    <div class="container">
 
-      <div class="why-head reveal">
-        <p class="section-eyebrow" style="justify-content:center;">Why AntBox</p>
-        <h2 class="section-headline" id="why-heading">
-          Not a job board. Not a course platform.<br>
-          <em class="accent-italic">Something new.</em>
-        </h2>
+    <!-- Tall scroll spacer so scroll progress drives the animation -->
+    <div class="why-anim-sticky">
+
+      <!-- Loading overlay -->
+      <div id="box-anim-loader" aria-hidden="true">
+        <div class="box-loader-bar-wrap">
+          <div class="box-loader-bar" id="boxLoaderBar"></div>
+        </div>
+        <p class="box-loader-text">Loading…</p>
       </div>
 
-      <div class="why-grid">
+      <!-- Canvas — frames rendered here -->
+      <canvas id="boxCanvas" aria-hidden="true"></canvas>
 
-        <div class="why-card reveal" data-delay="0">
-          <div class="why-icon" aria-hidden="true">🕸️</div>
+      <!-- Text overlay — synced with scroll / frame progress -->
+      <div class="why-overlay" aria-label="Why AntBox">
+
+        <!-- Phase 0: Heading (visible from start, fades at ~30%) -->
+        <div class="why-overlay-head" id="whyOverlayHead">
+          <p class="section-eyebrow why-eyebrow">Why AntBox</p>
+          <h2 class="section-headline why-headline" id="why-heading">
+            Not a job board.<br>Not a course platform.<br>
+            <em class="accent-italic">Something new.</em>
+          </h2>
+        </div>
+
+        <!-- Phase 1: Card 1 — top-right, appears ~15-50% scroll -->
+        <div class="why-overlay-card" id="whyCard1" data-in="0.15" data-out="0.5" data-slide="-1">
           <h3 class="why-title">Ecosystem, Not Silos</h3>
-          <p class="why-body">We connect academia, students, and enterprises in a single continuous loop. Learning
-            informs building, building informs validation, and validation leads to hiring.</p>
+          <p class="why-body">We connect academia, students, and enterprises in a single continuous loop. Learning informs building, building informs validation, and validation leads to hiring.</p>
         </div>
 
-        <div class="why-card reveal" data-delay="100">
-          <div class="why-icon" aria-hidden="true">⭐</div>
+        <!-- Phase 2: Card 2 — bottom-left, appears ~40-75% scroll -->
+        <div class="why-overlay-card" id="whyCard2" data-in="0.40" data-out="0.75" data-slide="1">
           <h3 class="why-title">Proof Over Pedigree</h3>
-          <p class="why-body">Our AI readiness engine shifts focus from where you went to school to what you can
-            actually do. We measure capability, adaptability, and execution — not institution prestige.</p>
+          <p class="why-body">Our AI readiness engine shifts focus from where you went to school to what you can actually do. We measure capability, adaptability, and execution — not institution prestige.</p>
         </div>
 
-        <div class="why-card reveal" data-delay="200">
-          <div class="why-icon" aria-hidden="true">🚀</div>
+        <!-- Phase 3: Card 3 — bottom-right, appears ~65% → stays -->
+        <div class="why-overlay-card" id="whyCard3" data-in="0.65" data-out="1.1" data-slide="1">
           <h3 class="why-title">Action-Oriented</h3>
-          <p class="why-body">No passive video watching. AntBox requires active participation through sprints, live
-            briefs, and continuous feedback loops that simulate real work environments.</p>
+          <p class="why-body">No passive video watching. AntBox requires active participation through sprints, live briefs, and continuous feedback loops that simulate real work environments.</p>
         </div>
 
-      </div>
+        <!-- Scroll hint -->
+        <div id="box-scroll-hint" aria-hidden="true">
+          <div class="box-hint-arrow"></div>
+          <span class="box-hint-label">Scroll to reveal</span>
+        </div>
 
-    </div>
+      </div><!-- /why-overlay -->
+
+    </div><!-- /why-anim-sticky -->
   </section>
 
 
