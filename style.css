@@ -1845,7 +1845,8 @@ h4 {
   display: block;
   width: 100%;
   height: 100%;
-  z-index: 4;          /* topmost layer — above overlay cards */
+  z-index: 4;
+  /* topmost layer — above overlay cards */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.6s ease;
@@ -1854,7 +1855,8 @@ h4 {
 
 #particleCanvas.pt-active {
   opacity: 1;
-  pointer-events: auto; /* enable hover repel when visible */
+  pointer-events: auto;
+  /* enable hover repel when visible */
 }
 
 /* ── Text overlay container ──────────────────────────────────── */
@@ -1890,7 +1892,8 @@ h4 {
 /* ── Overlay cards — shared base ────────────────────────────── */
 .why-overlay-card {
   position: absolute;
-  width: min(280px, 30vw);      /* compact, doesn't cover centre */
+  width: min(280px, 30vw);
+  /* compact, doesn't cover centre */
   background: rgba(255, 255, 255, 0.90);
   backdrop-filter: blur(16px) saturate(1.3);
   -webkit-backdrop-filter: blur(16px) saturate(1.3);
@@ -1938,7 +1941,9 @@ h4 {
 
 /* Mobile: stack cards back to bottom-centre since screen is narrow */
 @media (max-width: 640px) {
-  #why { height: 550vh; }
+  #why {
+    height: 550vh;
+  }
 
   .why-overlay-head {
     top: max(4.5rem, 6vh);
@@ -1954,8 +1959,13 @@ h4 {
     transform: translateX(-50%) translateY(var(--card-ty, 0px));
   }
 
-  .why-title { font-size: 0.95rem; }
-  .why-body  { font-size: 0.8rem; }
+  .why-title {
+    font-size: 0.95rem;
+  }
+
+  .why-body {
+    font-size: 0.8rem;
+  }
 }
 
 
@@ -2836,6 +2846,8 @@ html.lenis body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 8%;
+  /* Shift video content up (decrease percentage to shift up, increase to shift down) */
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
@@ -2848,15 +2860,18 @@ html.lenis body {
 
 /* ── Brand Footer Strip ────────────────────────────────── */
 .brand-footer-strip {
-  background: var(--bg); /* Matches AntBox warm off-white theme */
+  background: var(--bg);
+  /* Matches AntBox warm off-white theme */
   width: 100%;
-  overflow: hidden; /* Crucial: prevents horizontal scrollbar */
+  overflow: hidden;
+  /* Crucial: prevents horizontal scrollbar */
   position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   padding-top: 5rem;
-  padding-bottom: 2.5rem; /* Added bottom padding to provide comfortable breathing room */
+  padding-bottom: 2.5rem;
+  /* Added bottom padding to provide comfortable breathing room */
   border-top: 1px solid var(--border-light);
   margin-top: 3rem;
 }
@@ -2866,22 +2881,28 @@ html.lenis body {
   justify-content: center;
   align-items: flex-end;
   width: 100%;
-  line-height: 1.0; /* Full line-height to ensure all glyph parts are fully rendered and visible */
+  line-height: 1.0;
+  /* Full line-height to ensure all glyph parts are fully rendered and visible */
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: clamp(5rem, 19vw, 22rem); /* Decreased font size for better visual balance */
-  color: var(--text); /* Existing near-black brand color */
+  font-size: clamp(5rem, 19vw, 22rem);
+  /* Decreased font size for better visual balance */
+  color: var(--text);
+  /* Existing near-black brand color */
   user-select: none;
   pointer-events: none;
   white-space: nowrap;
-  margin-bottom: 0; /* Removed negative margin completely to prevent any bottom text cutoff */
-  letter-spacing: -0.02em; /* Ensures ANT and BOX visually touch and form one solid wordmark */
+  margin-bottom: 0;
+  /* Removed negative margin completely to prevent any bottom text cutoff */
+  letter-spacing: -0.02em;
+  /* Ensures ANT and BOX visually touch and form one solid wordmark */
 }
 
 .wordmark-part {
   display: inline-block;
   will-change: transform;
-  transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+  transform: translate3d(0, 0, 0);
+  /* Force GPU acceleration */
 }
 
 /* ============================================================
@@ -3007,13 +3028,23 @@ html.lenis body {
 }
 
 @keyframes boxHintPulse {
-  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
-  50%       { opacity: 1;   transform: scaleY(1); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleY(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 
 /* Responsive: on very small screens give the canvas more room */
 @media (max-width: 480px) {
   #box-animation {
-    height: 600vh; /* a bit more scroll room so animation isn't rushed on small screens */
+    height: 600vh;
+    /* a bit more scroll room so animation isn't rushed on small screens */
   }
-}
+}
