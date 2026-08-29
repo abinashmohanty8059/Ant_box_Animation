@@ -103,6 +103,34 @@
 
 
   <!-- ============================================================
+     ANTBOX PACKAGING — SCROLL-DRIVEN FRAME ANIMATION
+     ============================================================ -->
+  <section id="box-animation" aria-label="AntBox packaging reveal">
+    <!-- The sticky container pins in the viewport while the tall section scrolls -->
+    <div class="box-anim-sticky">
+
+      <!-- Loading progress overlay — fades out once all frames are cached -->
+      <div id="box-anim-loader" aria-hidden="true">
+        <div class="box-loader-bar-wrap">
+          <div class="box-loader-bar" id="boxLoaderBar"></div>
+        </div>
+        <p class="box-loader-text">Loading animation…</p>
+      </div>
+
+      <!-- Single canvas — frames are drawn here for maximum performance -->
+      <canvas id="boxCanvas" aria-hidden="true"></canvas>
+
+      <!-- Scroll cue — fades away once the user starts scrolling through the section -->
+      <div id="box-scroll-hint" aria-hidden="true">
+        <div class="box-hint-arrow"></div>
+        <span class="box-hint-label">Scroll to reveal</span>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
      STATISTICS + MARQUEE
      ============================================================ -->
   <section id="stats" aria-label="Platform impact">

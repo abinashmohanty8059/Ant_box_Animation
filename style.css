@@ -2838,3 +2838,137 @@ html.lenis body {
   will-change: transform;
   transform: translate3d(0, 0, 0); /* Force GPU acceleration */
 }
+
+/* ============================================================
+   BOX ANIMATION — Scroll-Driven Frame Sequence
+   ============================================================ */
+
+/* Outer section: tall enough to give scroll distance for 100 frames.
+   500vh gives ~5 viewports of scrolling → nice cinematic pace. */
+#box-animation {
+  position: relative;
+  height: 500vh;
+  background: #ffffff;
+}
+
+/* Sticky container that pins the canvas in the viewport while
+   the parent section scrolls behind it. */
+.box-anim-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* Canvas fills the sticky viewport but maintains the image ratio
+   via JS resizing; max-width keeps it from going full-bleed. */
+#boxCanvas {
+  display: block;
+  /* Intrinsic size is set by JS — these are just safe defaults */
+  max-width: 100%;
+  max-height: 100vh;
+  width: auto;
+  height: auto;
+  /* Keep the canvas sharp on retina screens (JS handles devicePixelRatio) */
+  image-rendering: auto;
+  will-change: transform;
+}
+
+/* Preload progress indicator (shown while frames are loading) */
+#box-anim-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+#box-anim-loader.hidden {
+  opacity: 0;
+}
+
+.box-loader-bar-wrap {
+  width: min(260px, 60vw);
+  height: 2px;
+  background: rgba(124, 58, 237, 0.12);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.box-loader-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--purple);
+  border-radius: 9999px;
+  transition: width 0.15s linear;
+}
+
+.box-loader-text {
+  margin-top: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Subtle scroll-hint arrow visible at the start of the section
+   so users know to scroll. Fades out once scrolling begins. */
+#box-scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 4;
+}
+
+#box-scroll-hint.hidden {
+  opacity: 0;
+}
+
+.box-hint-arrow {
+  width: 1px;
+  height: 2.5rem;
+  background: linear-gradient(to bottom, transparent, var(--purple));
+  animation: boxHintPulse 1.6s ease-in-out infinite;
+}
+
+.box-hint-label {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@keyframes boxHintPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+  50%       { opacity: 1;   transform: scaleY(1); }
+}
+
+/* Responsive: on very small screens give the canvas more room */
+@media (max-width: 480px) {
+  #box-animation {
+    height: 600vh; /* a bit more scroll room so animation isn't rushed on small screens */
+  }
+}

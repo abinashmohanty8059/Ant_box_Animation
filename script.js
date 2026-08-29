@@ -670,3 +670,225 @@
 
 })();
 
+
+/* ============================================================
+   BOX ANIMATION — Scroll-Driven Frame-by-Frame Canvas Renderer
+   Runs outside the main IIFE so it can reference window.lenis
+   and the global gsap / ScrollTrigger when they become available.
+   ============================================================ */
+(function initBoxAnimation() {
+  'use strict';
+
+  /* ── Constants ───────────────────────────────────────────── */
+  const TOTAL_FRAMES  = 100;
+  const FRAME_DIR     = 'frames/';
+  const SECTION_ID    = 'box-animation';
+  const CANVAS_ID     = 'boxCanvas';
+  const LOADER_ID     = 'box-anim-loader';
+  const LOADER_BAR_ID = 'boxLoaderBar';
+  const HINT_ID       = 'box-scroll-hint';
+
+  /* ── DOM refs ────────────────────────────────────────────── */
+  const section   = document.getElementById(SECTION_ID);
+  const canvas    = document.getElementById(CANVAS_ID);
+  const loader    = document.getElementById(LOADER_ID);
+  const loaderBar = document.getElementById(LOADER_BAR_ID);
+  const hint      = document.getElementById(HINT_ID);
+
+  if (!section || !canvas) return; // guard: elements must exist
+
+  const ctx = canvas.getContext('2d');
+  const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap at 2× for perf
+
+  /* ── Frame cache ─────────────────────────────────────────── */
+  const frames = new Array(TOTAL_FRAMES).fill(null);
+  let loadedCount = 0;
+  let frameWidth  = 0;
+  let frameHeight = 0;
+
+  /* Pad integer to 3-digit string: 1 → "001" */
+  function pad3(n) {
+    return String(n).padStart(3, '0');
+  }
+
+  /* ── Canvas sizing ───────────────────────────────────────── */
+  function resizeCanvas() {
+    if (!frameWidth || !frameHeight) return;
+
+    const aspect = frameWidth / frameHeight;
+    const vw     = window.innerWidth;
+    const vh     = window.innerHeight;
+
+    let w, h;
+    if (vw / vh > aspect) {
+      h = vh; w = h * aspect;
+    } else {
+      w = vw; h = w / aspect;
+    }
+
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    canvas.width  = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+
+    // Scale context for high-DPI
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    drawFrame(currentFrameIndex);
+  }
+
+  /* ── Frame rendering ─────────────────────────────────────── */
+  let currentFrameIndex = 0;
+
+  function drawFrame(index) {
+    const img = frames[index];
+    if (!img || !img.complete || !img.naturalWidth) return;
+
+    const w = canvas.width  / dpr;
+    const h = canvas.height / dpr;
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(img, 0, 0, w, h);
+  }
+
+  /* ── Progress → frame index ──────────────────────────────── */
+  function getFrameIndex(progress) {
+    const raw = Math.round(progress * (TOTAL_FRAMES - 1));
+    return Math.max(0, Math.min(TOTAL_FRAMES - 1, raw));
+  }
+
+  /* ── Interpolated render loop ────────────────────────────── */
+  let targetProgress  = 0;
+  let currentProgress = 0;
+  let rafPending      = false;
+  let hintHidden      = false;
+
+  function scheduleRender() {
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(renderLoop);
+    }
+  }
+
+  function renderLoop() {
+    rafPending = false;
+    currentProgress += (targetProgress - currentProgress) * 0.18;
+
+    const idx = getFrameIndex(currentProgress);
+    if (idx !== currentFrameIndex) {
+      currentFrameIndex = idx;
+      drawFrame(idx);
+    }
+
+    if (Math.abs(targetProgress - currentProgress) > 0.0004) {
+      rafPending = true;
+      requestAnimationFrame(renderLoop);
+    }
+  }
+
+  function onProgress(p) {
+    targetProgress = p;
+
+    if (p > 0.01 && !hintHidden && hint) {
+      hint.classList.add('hidden');
+      hintHidden = true;
+    }
+
+    scheduleRender();
+  }
+
+  /* ── Fallback: native scroll ─────────────────────────────── */
+  function initNativeScroll() {
+    function handleScroll() {
+      var rect     = section.getBoundingClientRect();
+      var total    = section.offsetHeight - window.innerHeight;
+      var scrolled = -rect.top;
+      onProgress(Math.max(0, Math.min(1, scrolled / total)));
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+  }
+
+  /* ── GSAP ScrollTrigger integration ─────────────────────── */
+  function initGSAPScroll() {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+
+      ScrollTrigger.create({
+        trigger : section,
+        start   : 'top top',
+        end     : 'bottom bottom',
+        scrub   : true,
+        onUpdate: function(self) { onProgress(self.progress); }
+      });
+
+      // Keep ScrollTrigger in sync with Lenis smooth scroll
+      if (window.lenis) {
+        window.lenis.on('scroll', ScrollTrigger.update);
+      }
+    } else {
+      initNativeScroll();
+    }
+  }
+
+  /* ── Preload all frames ──────────────────────────────────── */
+  function preloadFrames() {
+    for (var i = 0; i < TOTAL_FRAMES; i++) {
+      (function(index) {
+        var img = new Image();
+        var url = FRAME_DIR + pad3(index + 1) + '.png';
+
+        img.onload = function() {
+          frames[index] = img;
+
+          // Capture dimensions from the first successful decode
+          if (!frameWidth && img.naturalWidth) {
+            frameWidth  = img.naturalWidth;
+            frameHeight = img.naturalHeight;
+            resizeCanvas(); // size the canvas correctly
+            drawFrame(0);   // show frame 1 straight away
+          }
+
+          loadedCount++;
+          if (loaderBar) {
+            loaderBar.style.width = ((loadedCount / TOTAL_FRAMES) * 100) + '%';
+          }
+
+          if (loadedCount >= TOTAL_FRAMES) {
+            if (loader) setTimeout(function() { loader.classList.add('hidden'); }, 400);
+            drawFrame(currentFrameIndex); // refresh at current scroll pos
+          }
+        };
+
+        img.onerror = function() {
+          loadedCount++;
+          if (loadedCount >= TOTAL_FRAMES && loader) {
+            setTimeout(function() { loader.classList.add('hidden'); }, 400);
+          }
+        };
+
+        img.src = url;
+        frames[index] = img; // store immediately so drawFrame can check .complete
+      }(i));
+    }
+  }
+
+  /* ── Window resize ───────────────────────────────────────── */
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resizeCanvas, 120);
+  }, { passive: true });
+
+  /* ── Boot ────────────────────────────────────────────────── */
+  preloadFrames();
+
+  // Defer scroll wiring until the page JS has fully set up GSAP/Lenis
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initGSAPScroll, 0);
+    });
+  } else {
+    setTimeout(initGSAPScroll, 0);
+  }
+
+}());
