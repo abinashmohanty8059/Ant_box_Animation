@@ -810,6 +810,8 @@
       hint.classList.add('hidden');
       hintHidden = true;
     }
+    /* Notify particle-text module */
+    if (typeof window._ptUpdate === 'function') window._ptUpdate(p);
     scheduleRender();
   }
 
@@ -892,6 +894,249 @@
     document.addEventListener('DOMContentLoaded', function() { setTimeout(initGSAPScroll, 0); });
   } else {
     setTimeout(initGSAPScroll, 0);
+  }
+
+}());
+
+
+/* ============================================================
+   PARTICLE TEXT — "Thinking Inside the Box"
+   Vanilla Canvas implementation. Appears when the #why scroll
+   animation reaches ~85% progress, disappears on scroll away.
+   ============================================================ */
+(function initParticleText() {
+  'use strict';
+
+  var pCanvas = document.getElementById('particleCanvas');
+  if (!pCanvas) return;
+
+  var pCtx        = pCanvas.getContext('2d');
+  var dpr         = Math.min(window.devicePixelRatio || 1, 2);
+
+  /* ── Config ──────────────────────────────────────────────── */
+  var LINE1           = 'Thinking Inside';
+  var LINE2           = 'the Box';
+  var PARTICLE_SIZE   = 2.0;
+  var DENSITY         = 4;        /* sample every N logical pixels */
+  var COLOR_BASE      = '#0d0d14';
+  var COLOR_HIGHLIGHT = '#7c3aed';
+  var HIGHLIGHT_RATIO = 0.22;
+  var SHOW_START      = 0.80;     /* progress when canvas fades in */
+  var GATHER_START    = 0.83;     /* particles start gathering */
+  var GATHER_FULL     = 0.96;     /* fully gathered */
+  var SPRING          = 0.10;
+  var FRICTION        = 0.80;
+  var DRIFT           = 0.55;
+  var REPEL_R         = 110;
+  var REPEL_F         = 7;
+
+  /* ── State ───────────────────────────────────────────────── */
+  var particles   = [];
+  var gathered    = 0;    /* 0=scattered, 1=gathered (lerped) */
+  var isVisible   = false;
+  var animId      = null;
+  var vw = 0, vh = 0;
+  var mouseX = -9999, mouseY = -9999;
+
+  /* ── Canvas resize ───────────────────────────────────────── */
+  function resize() {
+    vw = pCanvas.parentElement ? pCanvas.parentElement.offsetWidth  : window.innerWidth;
+    vh = pCanvas.parentElement ? pCanvas.parentElement.offsetHeight : window.innerHeight;
+    pCanvas.style.width  = vw + 'px';
+    pCanvas.style.height = vh + 'px';
+    pCanvas.width  = Math.round(vw * dpr);
+    pCanvas.height = Math.round(vh * dpr);
+    pCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (particles.length) buildParticles(); /* recompute home positions */
+  }
+
+  /* ── Sample text into particle home positions ────────────── */
+  function buildParticles() {
+    /* Compute font size responsively */
+    var fs = Math.round(Math.min(vw * 0.082, 88));
+    if (vw < 600) fs = Math.round(Math.min(vw * 0.10, 52));
+
+    var font    = '800 ' + fs + 'px Century Gothic, CenturyGothic, AppleGothic, Trebuchet MS, sans-serif';
+    var lineH   = fs * 1.25;
+    var cy      = vh / 2;
+    var cx      = vw / 2;
+
+    /* Render text to a temporary offscreen canvas */
+    var ofc  = document.createElement('canvas');
+    ofc.width  = Math.round(vw * dpr);
+    ofc.height = Math.round(vh * dpr);
+    var oc   = ofc.getContext('2d');
+    oc.scale(dpr, dpr);
+    oc.fillStyle    = '#ffffff';
+    oc.font         = font;
+    oc.textAlign    = 'center';
+    oc.textBaseline = 'middle';
+    oc.fillText(LINE1, cx, cy - lineH / 2);
+    oc.fillText(LINE2, cx, cy + lineH / 2);
+
+    var imgData = oc.getImageData(0, 0, ofc.width, ofc.height);
+    var data    = imgData.data;
+    var step    = DENSITY * dpr;
+
+    var homes = [];
+    for (var py = 0; py < ofc.height; py += step) {
+      for (var px = 0; px < ofc.width; px += step) {
+        var idx = (Math.floor(py) * ofc.width + Math.floor(px)) * 4;
+        if (data[idx + 3] > 140) {
+          homes.push({ x: px / dpr, y: py / dpr });
+        }
+      }
+    }
+
+    /* Thin to max 4000 particles for performance */
+    if (homes.length > 4000) {
+      var step2 = Math.ceil(homes.length / 4000);
+      homes = homes.filter(function(_, i) { return i % step2 === 0; });
+    }
+
+    /* Preserve velocities when rebuilding (e.g. on resize) */
+    var oldLen = particles.length;
+    particles = homes.map(function(h, i) {
+      var old = particles[i];
+      return {
+        homeX : h.x,
+        homeY : h.y,
+        x     : old ? old.x : vw  * Math.random(),
+        y     : old ? old.y : vh  * Math.random(),
+        vx    : old ? old.vx * 0.5 : (Math.random() - 0.5) * 3,
+        vy    : old ? old.vy * 0.5 : (Math.random() - 0.5) * 3,
+        size  : PARTICLE_SIZE * (0.7 + Math.random() * 0.6),
+        hl    : Math.random() < HIGHLIGHT_RATIO
+      };
+    });
+  }
+
+  /* ── Draw one frame ──────────────────────────────────────── */
+  function drawFrame() {
+    pCtx.clearRect(0, 0, vw, vh);
+
+    var gp  = gathered;   /* 0-1 */
+    var len = particles.length;
+
+    for (var i = 0; i < len; i++) {
+      var p = particles[i];
+
+      /* Spring toward home (strength scales with gather progress) */
+      var fx = (p.homeX - p.x) * SPRING * gp;
+      var fy = (p.homeY - p.y) * SPRING * gp;
+
+      /* Random drift when not yet gathered */
+      if (gp < 0.98) {
+        fx += (Math.random() - 0.5) * DRIFT * (1 - gp);
+        fy += (Math.random() - 0.5) * DRIFT * (1 - gp);
+      }
+
+      /* Pointer repel */
+      var mdx = p.x - mouseX;
+      var mdy = p.y - mouseY;
+      var md2 = mdx * mdx + mdy * mdy;
+      if (md2 < REPEL_R * REPEL_R && md2 > 0.01) {
+        var md   = Math.sqrt(md2);
+        var frc  = (REPEL_R - md) / REPEL_R * REPEL_F;
+        fx += (mdx / md) * frc;
+        fy += (mdy / md) * frc;
+      }
+
+      p.vx = (p.vx + fx) * FRICTION;
+      p.vy = (p.vy + fy) * FRICTION;
+      p.x += p.vx;
+      p.y += p.vy;
+
+      /* Draw */
+      var alpha = Math.min(1, gp * 1.5);
+      if (alpha < 0.01) continue;
+
+      pCtx.globalAlpha = alpha;
+
+      if (p.hl) {
+        /* Purple highlight with glow */
+        pCtx.shadowBlur  = 7;
+        pCtx.shadowColor = COLOR_HIGHLIGHT;
+        pCtx.fillStyle   = COLOR_HIGHLIGHT;
+      } else {
+        pCtx.shadowBlur  = 0;
+        pCtx.fillStyle   = COLOR_BASE;
+      }
+
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, p.size, 0, 6.2832);
+      pCtx.fill();
+    }
+
+    pCtx.globalAlpha = 1;
+    pCtx.shadowBlur  = 0;
+  }
+
+  /* ── RAF loop ────────────────────────────────────────────── */
+  function loop() {
+    drawFrame();
+    animId = requestAnimationFrame(loop);
+  }
+
+  /* ── Show / hide ─────────────────────────────────────────── */
+  function show() {
+    if (isVisible) return;
+    isVisible = true;
+    pCanvas.classList.add('pt-active');
+    if (!animId) animId = requestAnimationFrame(loop);
+  }
+
+  function hide() {
+    if (!isVisible) return;
+    isVisible = false;
+    gathered  = 0;
+    pCanvas.classList.remove('pt-active');
+    if (animId) { cancelAnimationFrame(animId); animId = null; }
+    pCtx.clearRect(0, 0, vw, vh);
+  }
+
+  /* ── Public update hook — called by onProgress ───────────── */
+  window._ptUpdate = function(p) {
+    if (p >= SHOW_START) {
+      show();
+      /* Lerp gathered value toward target */
+      var target = 0;
+      if (p >= GATHER_FULL)       target = 1;
+      else if (p >= GATHER_START) target = (p - GATHER_START) / (GATHER_FULL - GATHER_START);
+      gathered += (target - gathered) * 0.12;
+    } else {
+      hide();
+    }
+  };
+
+  /* ── Pointer tracking ────────────────────────────────────── */
+  pCanvas.addEventListener('mousemove', function(e) {
+    var r = pCanvas.getBoundingClientRect();
+    mouseX = e.clientX - r.left;
+    mouseY = e.clientY - r.top;
+  }, { passive: true });
+
+  pCanvas.addEventListener('mouseleave', function() {
+    mouseX = -9999; mouseY = -9999;
+  });
+
+  /* ── Resize ──────────────────────────────────────────────── */
+  var rTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(rTimer);
+    rTimer = setTimeout(resize, 140);
+  }, { passive: true });
+
+  /* ── Boot ────────────────────────────────────────────────── */
+  function boot() {
+    resize();
+    buildParticles();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
   }
 
 }());
