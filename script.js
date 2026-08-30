@@ -1381,3 +1381,90 @@
   requestAnimationFrame(loop);
 
 }());
+
+
+/* ============================================================
+   BOUNCE CARDS ANIMATION (INTERACTIVE GALLERY)
+   Vanilla JS implementation using GSAP. Matches the new horizontal
+   scroll layout. Staggers entrance of all 12 cards with elastic
+   easing and rotates them, supporting a smooth hover scale up.
+   ============================================================ */
+(function initBounceCards() {
+  'use strict';
+
+  var container = document.querySelector('.bounceCardsScrollWrap');
+  if (!container) return;
+
+  var cards = container.querySelectorAll('.card');
+  
+  /* Alternating tilt angles for the cards */
+  var rotations = [-4, 3, -2, 4, -3, 2, -4, 3, -3, 4, -2, 3];
+
+  /* ── GSAP entrance with ScrollTrigger ─────────────────────── */
+  function startEntrance() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: '#bounce-cards-section',
+        start: 'top 80%', /* Trigger when section enters 80% viewport height */
+        once: true
+      }
+    })
+    .fromTo(cards, 
+      {
+        scale: 0.1,
+        rotation: 0,
+        y: 80,
+        opacity: 0
+      },
+      {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        rotation: function(i) { return rotations[i] || 0; },
+        duration: 1.4,
+        delay: 0.15,      /* animationDelay */
+        stagger: 0.18,    /* animationStagger */
+        ease: 'elastic.out(1, 0.6)' /* easeType matching react-bits config */
+      }
+    );
+
+    /* ── Hover interactions (enableHover) ───────────────────── */
+    cards.forEach(function(card, idx) {
+      var initialRot = rotations[idx] || 0;
+
+      card.addEventListener('mouseenter', function() {
+        gsap.to(card, {
+          scale: 1.08,
+          rotation: 0, /* Straighten on hover */
+          y: -25,      /* Float up slightly */
+          zIndex: 10,
+          duration: 0.35,
+          ease: 'power2.out'
+        });
+      });
+
+      card.addEventListener('mouseleave', function() {
+        gsap.to(card, {
+          scale: 1,
+          rotation: initialRot,
+          y: 0,
+          zIndex: 1,
+          duration: 0.35,
+          ease: 'power2.out'
+        });
+      });
+    });
+  }
+
+  /* ── Boot ────────────────────────────────────────────────── */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startEntrance);
+  } else {
+    startEntrance();
+  }
+
+}());
