@@ -72,7 +72,7 @@
     // Mouse parallax (desktop only)
     const isPointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    if (isPointer) {
+    if (false) {
       heroWrap.addEventListener('mousemove', (e) => {
         const rect = heroWrap.getBoundingClientRect();
         mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 35; // Sensitivity
@@ -1138,5 +1138,246 @@
   } else {
     boot();
   }
+
+}());
+
+
+/* ============================================================
+   BALLPIT PHYSICS SIMULATION
+   Vanilla Canvas 2D simulation overlay for the Hero section.
+   Includes gravity, friction, wall bouncing, and ball-to-ball
+   elastic collisions. Mouse repulsion adds cursor interactivity.
+   ============================================================ */
+(function initBallpit() {
+  'use strict';
+
+  var canvas = document.getElementById('ballpitCanvas');
+  var hero   = document.getElementById('hero');
+  if (!canvas || !hero) return;
+
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  /* ── Configuration ───────────────────────────────────────── */
+  var COUNT       = 100;
+  var GRAVITY     = 0.01;   /* Acceleration downward */
+  var FRICTION    = 0.9975;  /* Decay factor */
+  var WALL_BOUNCE = 0.95;   /* Energy retention on walls */
+  var BALL_BOUNCE = 0.85;   /* Coefficient of restitution between balls */
+  var REPEL_R     = 160;    /* Mouse repel radius */
+  var REPEL_F     = 0.95;   /* Mouse repel force */
+
+  /* ── State ───────────────────────────────────────────────── */
+  var balls  = [];
+  var width  = 0;
+  var height = 0;
+  var mouseX = -9999;
+  var mouseY = -9999;
+
+  /* Color themes (radial gradients for 3D sphere look) */
+  var ballThemes = [
+    { start: '#c084fc', end: '#7c3aed', shadow: '#5b21b6' }, /* Purple Theme */
+    { start: '#f472b6', end: '#db2777', shadow: '#9d174d' }, /* Pink/Accent Theme */
+    { start: '#a78bfa', end: '#8b5cf6', shadow: '#6d28d9' }, /* Violet Theme */
+    { start: '#ffffff', end: '#d4d4d8', shadow: '#a1a1aa' }, /* Neutral White */
+    { start: '#e4e4e7', end: '#a1a1aa', shadow: '#71717a' }  /* Neutral Gray */
+  ];
+
+  /* ── Resize canvas to match hero ─────────────────────────── */
+  function resize() {
+    width  = hero.offsetWidth;
+    height = hero.offsetHeight;
+
+    canvas.style.width  = width + 'px';
+    canvas.style.height = height + 'px';
+    canvas.width  = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    /* Keep balls inside the resized boundary */
+    for (var i = 0; i < balls.length; i++) {
+      var b = balls[i];
+      b.x = Math.max(b.r, Math.min(width - b.r, b.x));
+      b.y = Math.max(b.r, Math.min(height - b.r, b.y));
+    }
+  }
+
+  /* ── Create initial ball array ───────────────────────────── */
+  function createBalls() {
+    var minR = width < 600 ? 8  : 12;
+    var maxR = width < 600 ? 16 : 24;
+
+    balls = [];
+    for (var i = 0; i < COUNT; i++) {
+      var r = minR + Math.random() * (maxR - minR);
+      var theme = ballThemes[Math.floor(Math.random() * ballThemes.length)];
+      
+      balls.push({
+        x: r + Math.random() * (width - r * 2),
+        y: r + Math.random() * (height - r * 5), /* spawn in upper half */
+        vx: (Math.random() - 0.5) * 4,
+        vy: (Math.random() - 0.5) * 2,
+        r: r,
+        mass: r * r, /* Mass proportional to circle area */
+        theme: theme
+      });
+    }
+  }
+
+  /* ── Physics Update ──────────────────────────────────────── */
+  function updatePhysics() {
+    var i, j, b;
+
+    /* 1. Apply gravity, friction, drag, and move */
+    for (i = 0; i < COUNT; i++) {
+      b = balls[i];
+      b.vy += GRAVITY;
+      b.vx *= FRICTION;
+      b.vy *= FRICTION;
+      b.x  += b.vx;
+      b.y  += b.vy;
+
+      /* Boundary check & bounce */
+      if (b.x - b.r < 0) {
+        b.x = b.r;
+        b.vx = -b.vx * WALL_BOUNCE;
+      } else if (b.x + b.r > width) {
+        b.x = width - b.r;
+        b.vx = -b.vx * WALL_BOUNCE;
+      }
+
+      if (b.y - b.r < 0) {
+        b.y = b.r;
+        b.vy = -b.vy * WALL_BOUNCE;
+      } else if (b.y + b.r > height) {
+        b.y = height - b.r;
+        b.vy = -b.vy * WALL_BOUNCE;
+        /* Extra friction when sliding on the floor */
+        b.vx *= 0.98; 
+      }
+
+      /* Mouse Repulsion */
+      var dx = b.x - mouseX;
+      var dy = b.y - mouseY;
+      var distSq = dx * dx + dy * dy;
+      if (distSq < REPEL_R * REPEL_R && distSq > 0.1) {
+        var dist = Math.sqrt(distSq);
+        var force = (REPEL_R - dist) / REPEL_R * REPEL_F;
+        b.vx += (dx / dist) * force;
+        b.vy += (dy / dist) * force;
+      }
+    }
+
+    /* 2. Resolve Ball-to-Ball Collisions */
+    for (i = 0; i < COUNT; i++) {
+      var a = balls[i];
+      for (j = i + 1; j < COUNT; j++) {
+        var b2 = balls[j];
+        var cdx = b2.x - a.x;
+        var cdy = b2.y - a.y;
+        var cDistSq = cdx * cdx + cdy * cdy;
+        var minDist = a.r + b2.r;
+
+        if (cDistSq < minDist * minDist) {
+          var cDist = Math.sqrt(cDistSq);
+          if (cDist === 0) continue;
+          
+          var overlap = minDist - cDist;
+          var nx = cdx / cDist;
+          var ny = cdy / cDist;
+
+          /* Positional correction (resolve overlapping) */
+          var totalMass = a.mass + b2.mass;
+          a.x -= nx * overlap * (b2.mass / totalMass);
+          a.y -= ny * overlap * (b2.mass / totalMass);
+          b2.x += nx * overlap * (a.mass / totalMass);
+          b2.y += ny * overlap * (a.mass / totalMass);
+
+          /* Dynamic momentum resolution (impulse model) */
+          var rvx = a.vx - b2.vx;
+          var rvy = a.vy - b2.vy;
+          var velAlongNormal = rvx * nx + rvy * ny;
+
+          if (velAlongNormal > 0) { /* Moving toward each other */
+            var impulse = (1 + BALL_BOUNCE) * velAlongNormal / (1 / a.mass + 1 / b2.mass);
+            a.vx -= (impulse / a.mass) * nx;
+            a.vy -= (impulse / a.mass) * ny;
+            b2.vx += (impulse / b2.mass) * nx;
+            b2.vy += (impulse / b2.mass) * ny;
+          }
+        }
+      }
+    }
+  }
+
+  /* ── Render frame ────────────────────────────────────────── */
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (var i = 0; i < COUNT; i++) {
+      var b = balls[i];
+
+      /* Radial gradient for 3D sphere highlight */
+      var grad = ctx.createRadialGradient(
+        b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.05,
+        b.x, b.y, b.r
+      );
+      grad.addColorStop(0, b.theme.start);
+      grad.addColorStop(0.7, b.theme.end);
+      grad.addColorStop(1, b.theme.shadow);
+
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+  }
+
+  /* ── Render Loop ─────────────────────────────────────────── */
+  function loop() {
+    updatePhysics();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  /* ── Mouse events on hero container ──────────────────────── */
+  hero.addEventListener('mousemove', function(e) {
+    var rect = hero.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+  }, { passive: true });
+
+  hero.addEventListener('mouseleave', function() {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  /* Touch support for mobile */
+  hero.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 0) {
+      var rect = hero.getBoundingClientRect();
+      mouseX = e.touches[0].clientX - rect.left;
+      mouseY = e.touches[0].clientY - rect.top;
+    }
+  }, { passive: true });
+
+  hero.addEventListener('touchend', function() {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  /* ── Window resize ───────────────────────────────────────── */
+  var rTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(rTimer);
+    rTimer = setTimeout(function() {
+      resize();
+    }, 150);
+  }, { passive: true });
+
+  /* ── Initialize ──────────────────────────────────────────── */
+  resize();
+  createBalls();
+  requestAnimationFrame(loop);
 
 }());

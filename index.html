@@ -73,6 +73,9 @@
     <!-- Gradient overlay for readability -->
     <div class="hero-overlay" aria-hidden="true"></div>
 
+    <!-- Ballpit physics canvas -->
+    <canvas id="ballpitCanvas" aria-hidden="true"></canvas>
+
     <!-- Content -->
     <div class="hero-content" id="heroContent">
 
@@ -1031,19 +1034,22 @@
         <!-- Phase 1: Card 1 — top-right, appears ~15-50% scroll -->
         <div class="why-overlay-card" id="whyCard1" data-in="0.15" data-out="0.5" data-slide="-1">
           <h3 class="why-title">Ecosystem, Not Silos</h3>
-          <p class="why-body">We connect academia, students, and enterprises in a single continuous loop. Learning informs building, building informs validation, and validation leads to hiring.</p>
+          <p class="why-body">We connect academia, students, and enterprises in a single continuous loop. Learning
+            informs building, building informs validation, and validation leads to hiring.</p>
         </div>
 
         <!-- Phase 2: Card 2 — bottom-left, appears ~40-75% scroll -->
         <div class="why-overlay-card" id="whyCard2" data-in="0.40" data-out="0.75" data-slide="1">
           <h3 class="why-title">Proof Over Pedigree</h3>
-          <p class="why-body">Our AI readiness engine shifts focus from where you went to school to what you can actually do. We measure capability, adaptability, and execution — not institution prestige.</p>
+          <p class="why-body">Our AI readiness engine shifts focus from where you went to school to what you can
+            actually do. We measure capability, adaptability, and execution — not institution prestige.</p>
         </div>
 
         <!-- Phase 3: Card 3 — bottom-right, appears ~65% → stays -->
         <div class="why-overlay-card" id="whyCard3" data-in="0.65" data-out="1.1" data-slide="1">
           <h3 class="why-title">Action-Oriented</h3>
-          <p class="why-body">No passive video watching. AntBox requires active participation through sprints, live briefs, and continuous feedback loops that simulate real work environments.</p>
+          <p class="why-body">No passive video watching. AntBox requires active participation through sprints, live
+            briefs, and continuous feedback loops that simulate real work environments.</p>
         </div>
 
         <!-- Scroll hint -->
@@ -1094,8 +1100,8 @@
         <span class="masked-heading__clip" style="clip-path:url(#mhClip);">
           <span class="masked-heading__media" id="mhMedia">
             <video class="masked-heading__source"
-              src="https://ik.imagekit.io/tm5te9cjl/ff/Aerial%20view%20of%20sand%20beach.%20Top%20view%20sea%20waves.%20Drone%20footage%20-%20Nature%20video,%20HD%20-%204K%20(720p,%20h264).mp4" autoplay
-              muted loop playsinline></video>
+              src="https://ik.imagekit.io/tm5te9cjl/ff/Aerial%0view%20of%20sand%20beach.%20Top%20view%20sea%20waves.%20Drone%20footage%20-%20Nature%20video,%20HD%20-%204K%20(720p,%20h264).mp4"
+              autoplay muted loop playsinline></video>
           </span>
         </span>
       </span>
@@ -1193,10 +1199,11 @@
       </div>
 
     </div>
-    
+
     <!-- Full-width animated brand footer -->
     <div class="brand-footer-strip" id="brandFooterStrip" aria-hidden="true">
-      <div class="brand-footer-wordmark"><span class="wordmark-part part-ant">ANT</span><span class="wordmark-part part-box">BOX</span></div>
+      <div class="brand-footer-wordmark"><span class="wordmark-part part-ant">ANT</span><span
+          class="wordmark-part part-box">BOX</span></div>
     </div>
   </footer>
 
