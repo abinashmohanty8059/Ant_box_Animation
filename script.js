@@ -680,20 +680,20 @@
 
   /* ── Constants ───────────────────────────────────────────── */
   var TOTAL_FRAMES = 100;
-  var FRAME_DIR    = 'frames/';
+  var FRAME_DIR = 'frames/';
 
   /* ── DOM refs ────────────────────────────────────────────── */
-  var section   = document.getElementById('why');
-  var canvas    = document.getElementById('boxCanvas');
-  var loader    = document.getElementById('box-anim-loader');
+  var section = document.getElementById('why');
+  var canvas = document.getElementById('boxCanvas');
+  var loader = document.getElementById('box-anim-loader');
   var loaderBar = document.getElementById('boxLoaderBar');
-  var hint      = document.getElementById('box-scroll-hint');
+  var hint = document.getElementById('box-scroll-hint');
 
   /* Text overlay elements */
   var headEl = document.getElementById('whyOverlayHead');
-  var card1  = document.getElementById('whyCard1');
-  var card2  = document.getElementById('whyCard2');
-  var card3  = document.getElementById('whyCard3');
+  var card1 = document.getElementById('whyCard1');
+  var card2 = document.getElementById('whyCard2');
+  var card3 = document.getElementById('whyCard3');
 
   if (!section || !canvas) return;
 
@@ -701,9 +701,9 @@
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
   /* ── Frame cache ─────────────────────────────────────────── */
-  var frames      = new Array(TOTAL_FRAMES).fill(null);
+  var frames = new Array(TOTAL_FRAMES).fill(null);
   var loadedCount = 0;
-  var frameWidth  = 0;
+  var frameWidth = 0;
   var frameHeight = 0;
   var currentFrameIndex = 0;
 
@@ -717,10 +717,10 @@
     var vh = window.innerHeight;
     var w, h;
     if (vw / vh > aspect) { h = vh; w = h * aspect; }
-    else                   { w = vw; h = w / aspect; }
-    canvas.style.width  = w + 'px';
+    else { w = vw; h = w / aspect; }
+    canvas.style.width = w + 'px';
     canvas.style.height = h + 'px';
-    canvas.width  = Math.round(w * dpr);
+    canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     drawFrame(currentFrameIndex);
@@ -743,31 +743,31 @@
 
   /* ── Easing helpers ──────────────────────────────────────── */
   function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-  function fadeIn(p, s, e)  { return clamp01((p - s) / Math.max(e - s, 0.001)); }
+  function fadeIn(p, s, e) { return clamp01((p - s) / Math.max(e - s, 0.001)); }
   function fadeOut(p, s, e) { return 1 - clamp01((p - s) / Math.max(e - s, 0.001)); }
 
   /* ── Text overlay sync ───────────────────────────────────── */
   function updateOverlay(p) {
     /* Heading: full until 0.18, fades out 0.18 → 0.36 */
     if (headEl) {
-      var ho  = p < 0.18 ? 1 : fadeOut(p, 0.18, 0.36);
+      var ho = p < 0.18 ? 1 : fadeOut(p, 0.18, 0.36);
       var hty = (1 - ho) * -16;
-      headEl.style.opacity   = ho;
+      headEl.style.opacity = ho;
       headEl.style.transform = 'translateX(-50%) translateY(' + hty + 'px)';
     }
 
     /* Card helper — uses data-slide ("-1" = from above, "1" = from below) */
     function applyCard(el) {
       if (!el) return;
-      var dataIn   = parseFloat(el.getAttribute('data-in')  || '0.2');
-      var dataOut  = parseFloat(el.getAttribute('data-out') || '0.9');
+      var dataIn = parseFloat(el.getAttribute('data-in') || '0.2');
+      var dataOut = parseFloat(el.getAttribute('data-out') || '0.9');
       var slideDir = parseFloat(el.getAttribute('data-slide') || '1'); /* -1 top, +1 bottom */
-      var oi = fadeIn (p, dataIn,           dataIn  + 0.12);
+      var oi = fadeIn(p, dataIn, dataIn + 0.12);
       var oo = dataOut > 1 ? 1 : fadeOut(p, dataOut - 0.10, dataOut);
       var op = oi * oo;
       /* Slide from 20px in the card's natural entry direction to 0 */
       var ty = (1 - oi) * 20 * slideDir;
-      el.style.opacity   = op;
+      el.style.opacity = op;
       el.style.transform = 'translateY(' + ty + 'px)';
     }
 
@@ -777,10 +777,10 @@
   }
 
   /* ── Interpolated render loop ────────────────────────────── */
-  var targetProgress  = 0;
+  var targetProgress = 0;
   var currentProgress = 0;
-  var rafPending      = false;
-  var hintHidden      = false;
+  var rafPending = false;
+  var hintHidden = false;
 
   function scheduleRender() {
     if (!rafPending) { rafPending = true; requestAnimationFrame(renderLoop); }
@@ -818,8 +818,8 @@
   /* ── Native scroll fallback ──────────────────────────────── */
   function initNativeScroll() {
     function handleScroll() {
-      var rect     = section.getBoundingClientRect();
-      var total    = section.offsetHeight - window.innerHeight;
+      var rect = section.getBoundingClientRect();
+      var total = section.offsetHeight - window.innerHeight;
       var scrolled = -rect.top;
       onProgress(Math.max(0, Math.min(1, scrolled / total)));
     }
@@ -832,11 +832,11 @@
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
       ScrollTrigger.create({
-        trigger : section,
-        start   : 'top top',
-        end     : 'bottom bottom',
-        scrub   : true,
-        onUpdate: function(self) { onProgress(self.progress); }
+        trigger: section,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        onUpdate: function (self) { onProgress(self.progress); }
       });
       if (window.lenis) {
         window.lenis.on('scroll', ScrollTrigger.update);
@@ -849,12 +849,12 @@
   /* ── Preload all frames ──────────────────────────────────── */
   function preloadFrames() {
     for (var i = 0; i < TOTAL_FRAMES; i++) {
-      (function(index) {
+      (function (index) {
         var img = new Image();
-        img.onload = function() {
+        img.onload = function () {
           frames[index] = img;
           if (!frameWidth && img.naturalWidth) {
-            frameWidth  = img.naturalWidth;
+            frameWidth = img.naturalWidth;
             frameHeight = img.naturalHeight;
             resizeCanvas();
             drawFrame(0);
@@ -865,14 +865,14 @@
             loaderBar.style.width = ((loadedCount / TOTAL_FRAMES) * 100) + '%';
           }
           if (loadedCount >= TOTAL_FRAMES) {
-            if (loader) setTimeout(function() { loader.classList.add('hidden'); }, 400);
+            if (loader) setTimeout(function () { loader.classList.add('hidden'); }, 400);
             drawFrame(currentFrameIndex);
           }
         };
-        img.onerror = function() {
+        img.onerror = function () {
           loadedCount++;
           if (loadedCount >= TOTAL_FRAMES && loader) {
-            setTimeout(function() { loader.classList.add('hidden'); }, 400);
+            setTimeout(function () { loader.classList.add('hidden'); }, 400);
           }
         };
         img.src = FRAME_DIR + pad3(index + 1) + '.png';
@@ -883,7 +883,7 @@
 
   /* ── Window resize ───────────────────────────────────────── */
   var resizeTimer;
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resizeCanvas, 120);
   }, { passive: true });
@@ -891,7 +891,7 @@
   /* ── Boot ────────────────────────────────────────────────── */
   preloadFrames();
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(initGSAPScroll, 0); });
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(initGSAPScroll, 0); });
   } else {
     setTimeout(initGSAPScroll, 0);
   }
@@ -910,41 +910,41 @@
   var pCanvas = document.getElementById('particleCanvas');
   if (!pCanvas) return;
 
-  var pCtx        = pCanvas.getContext('2d');
-  var dpr         = Math.min(window.devicePixelRatio || 1, 2);
+  var pCtx = pCanvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
   /* ── Config ──────────────────────────────────────────────── */
-  var LINE1           = 'Thinking Inside';
-  var LINE2           = 'the Box';
-  var PARTICLE_SIZE   = 2.0;
-  var DENSITY         = 4;        /* sample every N logical pixels */
-  var COLOR_BASE      = '#0d0d14';
+  var LINE1 = 'Thinking Inside';
+  var LINE2 = 'the Box';
+  var PARTICLE_SIZE = 2.0;
+  var DENSITY = 4;        /* sample every N logical pixels */
+  var COLOR_BASE = '#0d0d14';
   var COLOR_HIGHLIGHT = '#7c3aed';
   var HIGHLIGHT_RATIO = 0.22;
-  var SHOW_START      = 0.80;     /* progress when canvas fades in */
-  var GATHER_START    = 0.83;     /* particles start gathering */
-  var GATHER_FULL     = 0.96;     /* fully gathered */
-  var SPRING          = 0.10;
-  var FRICTION        = 0.80;
-  var DRIFT           = 0.55;
-  var REPEL_R         = 110;
-  var REPEL_F         = 7;
+  var SHOW_START = 0.80;     /* progress when canvas fades in */
+  var GATHER_START = 0.83;     /* particles start gathering */
+  var GATHER_FULL = 0.96;     /* fully gathered */
+  var SPRING = 0.10;
+  var FRICTION = 0.80;
+  var DRIFT = 0.55;
+  var REPEL_R = 110;
+  var REPEL_F = 7;
 
   /* ── State ───────────────────────────────────────────────── */
-  var particles   = [];
-  var gathered    = 0;    /* 0=scattered, 1=gathered (lerped) */
-  var isVisible   = false;
-  var animId      = null;
+  var particles = [];
+  var gathered = 0;    /* 0=scattered, 1=gathered (lerped) */
+  var isVisible = false;
+  var animId = null;
   var vw = 0, vh = 0;
   var mouseX = -9999, mouseY = -9999;
 
   /* ── Canvas resize ───────────────────────────────────────── */
   function resize() {
-    vw = pCanvas.parentElement ? pCanvas.parentElement.offsetWidth  : window.innerWidth;
+    vw = pCanvas.parentElement ? pCanvas.parentElement.offsetWidth : window.innerWidth;
     vh = pCanvas.parentElement ? pCanvas.parentElement.offsetHeight : window.innerHeight;
-    pCanvas.style.width  = vw + 'px';
+    pCanvas.style.width = vw + 'px';
     pCanvas.style.height = vh + 'px';
-    pCanvas.width  = Math.round(vw * dpr);
+    pCanvas.width = Math.round(vw * dpr);
     pCanvas.height = Math.round(vh * dpr);
     pCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
     if (particles.length) buildParticles(); /* recompute home positions */
@@ -956,27 +956,27 @@
     var fs = Math.round(Math.min(vw * 0.082, 88));
     if (vw < 600) fs = Math.round(Math.min(vw * 0.10, 52));
 
-    var font    = '800 ' + fs + 'px Century Gothic, CenturyGothic, AppleGothic, Trebuchet MS, sans-serif';
-    var lineH   = fs * 1.25;
-    var cy      = vh / 2;
-    var cx      = vw / 2;
+    var font = '800 ' + fs + 'px Century Gothic, CenturyGothic, AppleGothic, Trebuchet MS, sans-serif';
+    var lineH = fs * 1.25;
+    var cy = vh / 2;
+    var cx = vw / 2;
 
     /* Render text to a temporary offscreen canvas */
-    var ofc  = document.createElement('canvas');
-    ofc.width  = Math.round(vw * dpr);
+    var ofc = document.createElement('canvas');
+    ofc.width = Math.round(vw * dpr);
     ofc.height = Math.round(vh * dpr);
-    var oc   = ofc.getContext('2d');
+    var oc = ofc.getContext('2d');
     oc.scale(dpr, dpr);
-    oc.fillStyle    = '#ffffff';
-    oc.font         = font;
-    oc.textAlign    = 'center';
+    oc.fillStyle = '#ffffff';
+    oc.font = font;
+    oc.textAlign = 'center';
     oc.textBaseline = 'middle';
     oc.fillText(LINE1, cx, cy - lineH / 2);
     oc.fillText(LINE2, cx, cy + lineH / 2);
 
     var imgData = oc.getImageData(0, 0, ofc.width, ofc.height);
-    var data    = imgData.data;
-    var step    = DENSITY * dpr;
+    var data = imgData.data;
+    var step = DENSITY * dpr;
 
     var homes = [];
     for (var py = 0; py < ofc.height; py += step) {
@@ -991,22 +991,22 @@
     /* Thin to max 4000 particles for performance */
     if (homes.length > 4000) {
       var step2 = Math.ceil(homes.length / 4000);
-      homes = homes.filter(function(_, i) { return i % step2 === 0; });
+      homes = homes.filter(function (_, i) { return i % step2 === 0; });
     }
 
     /* Preserve velocities when rebuilding (e.g. on resize) */
     var oldLen = particles.length;
-    particles = homes.map(function(h, i) {
+    particles = homes.map(function (h, i) {
       var old = particles[i];
       return {
-        homeX : h.x,
-        homeY : h.y,
-        x     : old ? old.x : vw  * Math.random(),
-        y     : old ? old.y : vh  * Math.random(),
-        vx    : old ? old.vx * 0.5 : (Math.random() - 0.5) * 3,
-        vy    : old ? old.vy * 0.5 : (Math.random() - 0.5) * 3,
-        size  : PARTICLE_SIZE * (0.7 + Math.random() * 0.6),
-        hl    : Math.random() < HIGHLIGHT_RATIO
+        homeX: h.x,
+        homeY: h.y,
+        x: old ? old.x : vw * Math.random(),
+        y: old ? old.y : vh * Math.random(),
+        vx: old ? old.vx * 0.5 : (Math.random() - 0.5) * 3,
+        vy: old ? old.vy * 0.5 : (Math.random() - 0.5) * 3,
+        size: PARTICLE_SIZE * (0.7 + Math.random() * 0.6),
+        hl: Math.random() < HIGHLIGHT_RATIO
       };
     });
   }
@@ -1015,7 +1015,7 @@
   function drawFrame() {
     pCtx.clearRect(0, 0, vw, vh);
 
-    var gp  = gathered;   /* 0-1 */
+    var gp = gathered;   /* 0-1 */
     var len = particles.length;
 
     for (var i = 0; i < len; i++) {
@@ -1036,8 +1036,8 @@
       var mdy = p.y - mouseY;
       var md2 = mdx * mdx + mdy * mdy;
       if (md2 < REPEL_R * REPEL_R && md2 > 0.01) {
-        var md   = Math.sqrt(md2);
-        var frc  = (REPEL_R - md) / REPEL_R * REPEL_F;
+        var md = Math.sqrt(md2);
+        var frc = (REPEL_R - md) / REPEL_R * REPEL_F;
         fx += (mdx / md) * frc;
         fy += (mdy / md) * frc;
       }
@@ -1055,12 +1055,12 @@
 
       if (p.hl) {
         /* Purple highlight with glow */
-        pCtx.shadowBlur  = 7;
+        pCtx.shadowBlur = 7;
         pCtx.shadowColor = COLOR_HIGHLIGHT;
-        pCtx.fillStyle   = COLOR_HIGHLIGHT;
+        pCtx.fillStyle = COLOR_HIGHLIGHT;
       } else {
-        pCtx.shadowBlur  = 0;
-        pCtx.fillStyle   = COLOR_BASE;
+        pCtx.shadowBlur = 0;
+        pCtx.fillStyle = COLOR_BASE;
       }
 
       pCtx.beginPath();
@@ -1069,7 +1069,7 @@
     }
 
     pCtx.globalAlpha = 1;
-    pCtx.shadowBlur  = 0;
+    pCtx.shadowBlur = 0;
   }
 
   /* ── RAF loop ────────────────────────────────────────────── */
@@ -1089,19 +1089,19 @@
   function hide() {
     if (!isVisible) return;
     isVisible = false;
-    gathered  = 0;
+    gathered = 0;
     pCanvas.classList.remove('pt-active');
     if (animId) { cancelAnimationFrame(animId); animId = null; }
     pCtx.clearRect(0, 0, vw, vh);
   }
 
   /* ── Public update hook — called by onProgress ───────────── */
-  window._ptUpdate = function(p) {
+  window._ptUpdate = function (p) {
     if (p >= SHOW_START) {
       show();
       /* Lerp gathered value toward target */
       var target = 0;
-      if (p >= GATHER_FULL)       target = 1;
+      if (p >= GATHER_FULL) target = 1;
       else if (p >= GATHER_START) target = (p - GATHER_START) / (GATHER_FULL - GATHER_START);
       gathered += (target - gathered) * 0.12;
     } else {
@@ -1110,19 +1110,19 @@
   };
 
   /* ── Pointer tracking ────────────────────────────────────── */
-  pCanvas.addEventListener('mousemove', function(e) {
+  pCanvas.addEventListener('mousemove', function (e) {
     var r = pCanvas.getBoundingClientRect();
     mouseX = e.clientX - r.left;
     mouseY = e.clientY - r.top;
   }, { passive: true });
 
-  pCanvas.addEventListener('mouseleave', function() {
+  pCanvas.addEventListener('mouseleave', function () {
     mouseX = -9999; mouseY = -9999;
   });
 
   /* ── Resize ──────────────────────────────────────────────── */
   var rTimer;
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
     clearTimeout(rTimer);
     rTimer = setTimeout(resize, 140);
   }, { passive: true });
@@ -1152,24 +1152,24 @@
   'use strict';
 
   var canvas = document.getElementById('ballpitCanvas');
-  var hero   = document.getElementById('hero');
+  var hero = document.getElementById('hero');
   if (!canvas || !hero) return;
 
   var ctx = canvas.getContext('2d');
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
 
   /* ── Configuration ───────────────────────────────────────── */
-  var COUNT       = 100;
-  var GRAVITY     = 0.01;   /* Acceleration downward */
-  var FRICTION    = 0.9975;  /* Decay factor */
+  var COUNT = 100;
+  var GRAVITY = 0.01;   /* Acceleration downward */
+  var FRICTION = 0.9975;  /* Decay factor */
   var WALL_BOUNCE = 0.95;   /* Energy retention on walls */
   var BALL_BOUNCE = 0.85;   /* Coefficient of restitution between balls */
-  var REPEL_R     = 160;    /* Mouse repel radius */
-  var REPEL_F     = 0.95;   /* Mouse repel force */
+  var REPEL_R = 160;    /* Mouse repel radius */
+  var REPEL_F = 0.95;   /* Mouse repel force */
 
   /* ── State ───────────────────────────────────────────────── */
-  var balls  = [];
-  var width  = 0;
+  var balls = [];
+  var width = 0;
   var height = 0;
   var mouseX = -9999;
   var mouseY = -9999;
@@ -1185,12 +1185,12 @@
 
   /* ── Resize canvas to match hero ─────────────────────────── */
   function resize() {
-    width  = hero.offsetWidth;
+    width = hero.offsetWidth;
     height = hero.offsetHeight;
 
-    canvas.style.width  = width + 'px';
+    canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
-    canvas.width  = Math.round(width * dpr);
+    canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -1204,14 +1204,14 @@
 
   /* ── Create initial ball array ───────────────────────────── */
   function createBalls() {
-    var minR = width < 600 ? 8  : 12;
+    var minR = width < 600 ? 8 : 12;
     var maxR = width < 600 ? 16 : 24;
 
     balls = [];
     for (var i = 0; i < COUNT; i++) {
       var r = minR + Math.random() * (maxR - minR);
       var theme = ballThemes[Math.floor(Math.random() * ballThemes.length)];
-      
+
       balls.push({
         x: r + Math.random() * (width - r * 2),
         y: r + Math.random() * (height - r * 5), /* spawn in upper half */
@@ -1234,8 +1234,8 @@
       b.vy += GRAVITY;
       b.vx *= FRICTION;
       b.vy *= FRICTION;
-      b.x  += b.vx;
-      b.y  += b.vy;
+      b.x += b.vx;
+      b.y += b.vy;
 
       /* Boundary check & bounce */
       if (b.x - b.r < 0) {
@@ -1253,7 +1253,7 @@
         b.y = height - b.r;
         b.vy = -b.vy * WALL_BOUNCE;
         /* Extra friction when sliding on the floor */
-        b.vx *= 0.98; 
+        b.vx *= 0.98;
       }
 
       /* Mouse Repulsion */
@@ -1281,7 +1281,7 @@
         if (cDistSq < minDist * minDist) {
           var cDist = Math.sqrt(cDistSq);
           if (cDist === 0) continue;
-          
+
           var overlap = minDist - cDist;
           var nx = cdx / cDist;
           var ny = cdy / cDist;
@@ -1341,19 +1341,19 @@
   }
 
   /* ── Mouse events on hero container ──────────────────────── */
-  hero.addEventListener('mousemove', function(e) {
+  hero.addEventListener('mousemove', function (e) {
     var rect = hero.getBoundingClientRect();
     mouseX = e.clientX - rect.left;
     mouseY = e.clientY - rect.top;
   }, { passive: true });
 
-  hero.addEventListener('mouseleave', function() {
+  hero.addEventListener('mouseleave', function () {
     mouseX = -9999;
     mouseY = -9999;
   });
 
   /* Touch support for mobile */
-  hero.addEventListener('touchmove', function(e) {
+  hero.addEventListener('touchmove', function (e) {
     if (e.touches.length > 0) {
       var rect = hero.getBoundingClientRect();
       mouseX = e.touches[0].clientX - rect.left;
@@ -1361,16 +1361,16 @@
     }
   }, { passive: true });
 
-  hero.addEventListener('touchend', function() {
+  hero.addEventListener('touchend', function () {
     mouseX = -9999;
     mouseY = -9999;
   });
 
   /* ── Window resize ───────────────────────────────────────── */
   var rTimer;
-  window.addEventListener('resize', function() {
+  window.addEventListener('resize', function () {
     clearTimeout(rTimer);
-    rTimer = setTimeout(function() {
+    rTimer = setTimeout(function () {
       resize();
     }, 150);
   }, { passive: true });
@@ -1385,9 +1385,9 @@
 
 /* ============================================================
    BOUNCE CARDS ANIMATION (INTERACTIVE GALLERY)
-   Vanilla JS implementation using GSAP. Matches the new horizontal
-   scroll layout. Staggers entrance of all 12 cards with elastic
-   easing and rotates them, supporting a smooth hover scale up.
+   Vanilla JS implementation using GSAP. Pins the section vertically
+   and translates the gallery row horizontally as the user scrolls
+   down, before moving to the next section.
    ============================================================ */
 (function initBounceCards() {
   'use strict';
@@ -1396,7 +1396,7 @@
   if (!container) return;
 
   var cards = container.querySelectorAll('.card');
-  
+
   /* Alternating tilt angles for the cards */
   var rotations = [-4, 3, -2, 4, -3, 2, -4, 3, -3, 4, -2, 3];
 
@@ -1406,37 +1406,56 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
+    /* 1. Staggered Entrance Animation */
     gsap.timeline({
       scrollTrigger: {
         trigger: '#bounce-cards-section',
-        start: 'top 80%', /* Trigger when section enters 80% viewport height */
+        start: 'top 85%', /* Trigger stagger entrance before pinning */
         once: true
       }
     })
-    .fromTo(cards, 
-      {
-        scale: 0.1,
-        rotation: 0,
-        y: 80,
-        opacity: 0
-      },
-      {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        rotation: function(i) { return rotations[i] || 0; },
-        duration: 1.4,
-        delay: 0.15,      /* animationDelay */
-        stagger: 0.18,    /* animationStagger */
-        ease: 'elastic.out(1, 0.6)' /* easeType matching react-bits config */
-      }
-    );
+      .fromTo(cards,
+        {
+          scale: 0.1,
+          rotation: 0,
+          y: 80,
+          opacity: 0
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          rotation: function (i) { return rotations[i] || 0; },
+          duration: 1.2,
+          delay: 0.1,
+          stagger: 0.15,
+          ease: 'elastic.out(1, 0.6)'
+        }
+      );
 
-    /* ── Hover interactions (enableHover) ───────────────────── */
-    cards.forEach(function(card, idx) {
+    /* 2. Horizontal Scroll Pinning */
+    gsap.to(container, {
+      x: function () {
+        return -(container.scrollWidth - window.innerWidth);
+      },
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#bounce-cards-section',
+        pin: true,
+        scrub: 0.8,
+        start: 'top top',
+        end: function () {
+          return '+=' + (container.scrollWidth - window.innerWidth);
+        },
+        invalidateOnRefresh: true
+      }
+    });
+
+    /* 3. Hover interactions (enableHover) ───────────────────── */
+    cards.forEach(function (card, idx) {
       var initialRot = rotations[idx] || 0;
 
-      card.addEventListener('mouseenter', function() {
+      card.addEventListener('mouseenter', function () {
         gsap.to(card, {
           scale: 1.08,
           rotation: 0, /* Straighten on hover */
@@ -1447,7 +1466,7 @@
         });
       });
 
-      card.addEventListener('mouseleave', function() {
+      card.addEventListener('mouseleave', function () {
         gsap.to(card, {
           scale: 1,
           rotation: initialRot,

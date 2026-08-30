@@ -449,8 +449,10 @@ h4 {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1.5; /* Below readable text (z-index 2) but above parallax background (z-index 1) */
-  pointer-events: none; /* Let all click events pass through to hero buttons */
+  z-index: 1.5;
+  /* Below readable text (z-index 2) but above parallax background (z-index 1) */
+  pointer-events: none;
+  /* Let all click events pass through to hero buttons */
   display: block;
 }
 
@@ -1990,23 +1992,30 @@ h4 {
 
 .bounceCardsScrollWrap {
   display: flex;
-  gap: 50px;
-  padding: 40px 10vw 80px; /* Large side padding so start/end card isn't cut off */
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Hide scrollbar */
+  gap: 0px;
+  /* Spacing handled by card negative margin */
+  padding: 80px 10vw 100px;
+  /* Extra padding for card hover float-up */
+  overflow-x: visible;
+  /* Let container overflow horizontally for GSAP translation */
+  width: max-content;
+  /* Take full content width */
+  scrollbar-width: none;
+  /* Hide scrollbar */
 }
 
 .bounceCardsScrollWrap::-webkit-scrollbar {
-  display: none; /* Hide scrollbar for Chrome/Safari */
+  display: none;
+  /* Hide scrollbar for Chrome/Safari */
 }
 
 .card {
   position: relative;
-  flex: 0 0 400px; /* Set card width to 400px */
+  flex: 0 0 400px;
+  /* Set card width to 400px */
   width: 400px;
-  aspect-ratio: 1.15; /* Cinematic ratio */
+  aspect-ratio: 1.15;
+  /* Cinematic ratio */
   border: 7px solid #ffffff;
   border-radius: 24px;
   overflow: hidden;
@@ -2015,11 +2024,13 @@ h4 {
   cursor: pointer;
   background: #ffffff;
   transition: box-shadow 0.3s ease;
-  margin-right: -80px; /* Overlap cards slightly */
+  margin-right: -80px;
+  /* Overlap cards slightly */
 }
 
 .card:last-child {
-  margin-right: 0; /* Clear right margin on last card */
+  margin-right: 0;
+  /* Clear right margin on last card */
 }
 
 .card:hover {
@@ -2066,15 +2077,19 @@ h4 {
   #bounce-cards-section {
     padding: 3rem 0;
   }
+
   .bounceCardsScrollWrap {
-    gap: 0px; /* Let negative margin handle spacing entirely */
+    gap: 0px;
+    /* Let negative margin handle spacing entirely */
     padding: 30px 6vw 50px;
   }
+
   .card {
     flex: 0 0 280px;
     width: 280px;
     border-width: 5px;
-    margin-right: -50px; /* Reduced overlap on mobile */
+    margin-right: -50px;
+    /* Reduced overlap on mobile */
   }
 }
 
