@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AntBox — Talent Readiness AI Platform</title>
+  <meta name="description"
+    content="AntBox bridges talent with opportunity. The campus-to-corporate platform that validates skills, builds tribes, and connects students with top enterprises." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Poppins from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+     MOBILE MENU
+     ============================================================ -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <a href="#journey" id="mm-journey" onclick="closeMobileMenu()">Platform</a>
+    <a href="#students" id="mm-students" onclick="closeMobileMenu()">Students</a>
+    <a href="#corporates" id="mm-corp" onclick="closeMobileMenu()">Enterprises</a>
+    <a href="#why" id="mm-why" onclick="closeMobileMenu()">Why AntBox</a>
+    <a href="#cta" class="btn btn-primary" style="margin-top:1rem;" onclick="closeMobileMenu()">Enter Platform →</a>
+  </div>
+
+  <!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="container nav-inner">
+
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="AntBox home">
+        <img src="assets/namedlogo.png" alt="AntBox" />
+      </a>
+
+      <!-- Desktop links -->
+      <ul class="nav-links" role="list">
+        <li><a href="#journey">Platform</a></li>
+        <li><a href="#students">Students</a></li>
+        <li><a href="#corporates">Enterprises</a></li>
+        <li><a href="#why">Why AntBox</a></li>
+      </ul>
+
+      <!-- Desktop CTA -->
+      <div class="nav-cta">
+        <a href="#cta" class="btn btn-outline" id="nav-enter-btn">Enter Platform →</a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button class="nav-hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+     HERO — PARALLAX
+     ============================================================ -->
+  <section id="hero" aria-label="Hero">
+
+    <!-- Background artwork -->
+    <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+
+    <!-- Gradient overlay for readability -->
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <!-- Ballpit physics canvas -->
+    <canvas id="ballpitCanvas" aria-hidden="true"></canvas>
+
+    <!-- Content -->
+    <div class="hero-content" id="heroContent">
+
+      <h1 class="hero-headline">
+        The platform that bridges<br>
+        <span style="white-space: nowrap;"><em class="accent-italic">talent</em> with opportunity.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Build meaningful connections, discover your potential, and create
+        opportunities through experiences that prepare you for what comes next.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#students" class="btn btn-primary" id="hero-student-btn">I'm a Student →</a>
+        <a href="#corporates" class="btn btn-outline" id="hero-corp-btn">For Enterprises</a>
+      </div>
+
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" aria-hidden="true">
+      <div class="scroll-hint-line"></div>
+      <div class="scroll-hint-dot"></div>
+    </div>
+
+  </section>
+
+
+  <!-- ============================================================
+     STATISTICS + MARQUEE
+     ============================================================ -->
+  <section id="stats" aria-label="Platform impact">
+    <div class="container">
+
+      <div class="stats-grid">
+
+        <div class="stat-card reveal" data-delay="0">
+          <p class="stat-number"><span class="stat-count" data-target="10000">0</span><span class="accent">+</span></p>
+          <p class="stat-label">Students Validated</p>
+        </div>
+
+        <div class="stat-card reveal" data-delay="100">
+          <p class="stat-number"><span class="stat-count" data-target="50">0</span><span class="accent">+</span></p>
+          <p class="stat-label">Enterprises Hiring</p>
+        </div>
+
+        <div class="stat-card reveal" data-delay="200">
+          <p class="stat-number"><span class="stat-count" data-target="70">0</span><span class="accent">%</span></p>
+          <p class="stat-label">Placement Rate</p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Marquee strip -->
+    <div class="marquee-wrap" aria-hidden="true">
+      <div class="marquee-track" id="marqueeTrack">
+        <!-- Items duplicated for seamless loop -->
+        <div class="marquee-item">Validated Talent Pool <span class="dot">•</span></div>
+        <div class="marquee-item">Campus to Corporate <span class="dot">•</span></div>
+        <div class="marquee-item">Tribe Building <span class="dot">•</span></div>
+        <div class="marquee-item">AI Readiness Engine <span class="dot">•</span></div>
+        <div class="marquee-item">Career Sprints <span class="dot">•</span></div>
+        <div class="marquee-item">Live Work Experience <span class="dot">•</span></div>
+        <div class="marquee-item">Pre-Placement Offers <span class="dot">•</span></div>
+        <div class="marquee-item">Validated Talent Pool <span class="dot">•</span></div>
+        <div class="marquee-item">Campus to Corporate <span class="dot">•</span></div>
+        <div class="marquee-item">Tribe Building <span class="dot">•</span></div>
+        <div class="marquee-item">AI Readiness Engine <span class="dot">•</span></div>
+        <div class="marquee-item">Career Sprints <span class="dot">•</span></div>
+        <div class="marquee-item">Live Work Experience <span class="dot">•</span></div>
+        <div class="marquee-item">Pre-Placement Offers <span class="dot">•</span></div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ============================================================
+     FROM POTENTIAL TO PROOF
+     ============================================================ -->
+  <section id="journey" aria-label="From Potential to Proof">
+    <div class="container">
+
+      <!-- Editorial Intro -->
+      <div class="journey-intro">
+        <div class="reveal-left">
+          <p class="section-eyebrow">The AntBox Advantage</p>
+          <h2 class="section-headline">
+            Potential is everywhere.<br>
+            <em class="accent-italic text-purple">Proof is rare.</em>
+          </h2>
+        </div>
+        <div class="reveal-right">
+          <p class="section-body">
+            AntBox closes the gap between learning and doing. We put emerging talent into real environments, real
+            workflows, and real challenges—so potential becomes something companies can actually see.
+          </p>
+        </div>
+      </div>
+
+      <!-- Optional AntBox Brand Moment -->
+      <div class="brand-editorial-moment reveal">
+        <p class="editorial-quote">Resumes tell a story. Work leaves <em
+            class="accent-italic text-purple">evidence.</em></p>
+      </div>
+
+      <!-- Redesigned Layout -->
+      <div class="journey-layout">
+
+        <!-- Horizontal Proof Pipeline -->
+        <div class="pipeline-column">
+          <div class="pipeline-container reveal">
+
+            <!-- Flow line -->
+            <div class="pipeline-flow-line">
+              <div class="pipeline-progress" id="pipelineProgress"></div>
+            </div>
+
+            <div class="pipeline-stages">
+              <!-- Stage 01 -->
+              <div class="pipeline-stage" data-stage="1">
+                <div class="stage-num">01</div>
+                <div class="stage-icon-wrap">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor"
+                      d="M12 2L1 9l11 7 9-5.73v5.73h2V9L12 2zm0 11.5L5.26 9 12 5.5 18.74 9 12 13.5zM11 16.58V20h2v-3.42c1.72-.45 3-2 3-3.83h-2c0 1.1-.9 2-2 2s-2-.9-2-2H8c0 1.83 1.28 3.38 3 3.83z" />
+                  </svg>
+                </div>
+                <div class="stage-content">
+                  <h3 class="stage-title">Train with intent</h3>
+                  <p class="stage-subtitle">Learn what the real world demands.</p>
+                  <p class="stage-desc">Structured learning, mentorship, and specialised career tracks help
+                    high-potential talent build relevant skills with a clear direction.</p>
+                </div>
+              </div>
+
+              <!-- Stage 02 -->
+              <div class="pipeline-stage active" data-stage="2">
+                <div class="stage-num">02</div>
+                <div class="stage-icon-wrap">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor"
+                      d="M3 13h8V3H3v10zm2-8h4v6H5V5zm8 16h8V11h-8v10zm2-8h4v6h-4v-6zM3 21h8v-6H3v6zm2-4h4v2H5v-2zM13 3v6h8V3h-8zm6 4h-4V5h4v2z" />
+                  </svg>
+                </div>
+                <div class="stage-content">
+                  <h3 class="stage-title">Work for real</h3>
+                  <p class="stage-subtitle">Move beyond simulations.</p>
+                  <p class="stage-desc">Talent works on real briefs, real tools, and live workflows—building experience
+                    that cannot be captured by a certificate alone.</p>
+                </div>
+              </div>
+
+              <!-- Stage 03 -->
+              <div class="pipeline-stage focus" data-stage="3">
+                <div class="stage-num">03</div>
+                <div class="stage-icon-wrap">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor"
+                      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
+                  </svg>
+                </div>
+                <div class="stage-content">
+                  <h3 class="stage-title">Perform & prove</h3>
+                  <p class="stage-subtitle">Let the work speak.</p>
+                  <p class="stage-desc">Performance is evaluated through demonstrated output, consistency,
+                    collaboration, and execution—not just resumes.</p>
+                  <span class="stage-label">Proof of Work → Verified</span>
+                </div>
+              </div>
+
+              <!-- Stage 04 -->
+              <div class="pipeline-stage" data-stage="4">
+                <div class="stage-num">04</div>
+                <div class="stage-icon-wrap">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="currentColor"
+                      d="M5 13H19V11H5v2zm0-4h14V7H5v2zm0 8h14v-2H5v2zm16 4H3V3h18v18zM5 5v14h14V5H5z" />
+                  </svg>
+                </div>
+                <div class="stage-content">
+                  <h3 class="stage-title">Deploy with confidence</h3>
+                  <p class="stage-subtitle">Ready from day one.</p>
+                  <p class="stage-desc">Companies gain access to talent that has already worked in professional
+                    environments and understands the expectations of execution.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Brand Proof Panel -->
+        <div class="proof-panel-column reveal-right">
+          <div class="proof-panel">
+            <h3 class="proof-panel-title">What companies actually see</h3>
+
+            <div class="proof-signals">
+              <div class="proof-signal">
+                <div class="signal-header">
+                  <span class="signal-dot"></span>
+                  <span class="signal-title">Verified Work Output</span>
+                </div>
+                <p class="signal-desc">Real projects and demonstrated execution.</p>
+              </div>
+
+              <div class="proof-signal">
+                <div class="signal-header">
+                  <span class="signal-dot"></span>
+                  <span class="signal-title">Performance Signals</span>
+                </div>
+                <p class="signal-desc">A clearer picture of how someone actually works.</p>
+              </div>
+
+              <div class="proof-signal">
+                <div class="signal-header">
+                  <span class="signal-dot"></span>
+                  <span class="signal-title">Readiness, Not Just Credentials</span>
+                </div>
+                <p class="signal-desc">Talent evaluated for contribution, not just qualification.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+     ANTBOX TALENT STORIES (CINEMATIC SCROLL)
+     ============================================================ -->
+  <section id="talent-stories" aria-label="AntBox Talent Stories">
+    <div class="stories-pinned-wrapper">
+      <!-- Pinned Intro Heading -->
+      <div class="stories-intro">
+        <div class="container intro-inner">
+          <div class="intro-left">
+            <p class="section-eyebrow text-purple">THE COLONY</p>
+          </div>
+          <div class="intro-center">
+            <h2 class="stories-headline">
+              Where <em class="accent-italic text-purple">talent</em><br>
+              meets opportunity.
+            </h2>
+            <p class="stories-subheadline">
+              Real experiences. Meaningful connections. Proof of potential.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expanding Black Surface mask (curtain reveal) -->
+      <div class="stories-reveal-panel"></div>
+    </div>
+
+    <!-- The Actual Gallery Content (positioned below the pinning stage) -->
+    <div class="stories-gallery-content">
+      <div class="container">
+        <div class="gallery-grid">
+
+          <!-- Card 01 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/01 — The Colony.png" alt="01 — The Colony" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">01</span>
+                <h4 class="card-title">The Colony</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 02 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/02 — From Campus to Corporate.png" alt="02 — From Campus to Corporate"
+                loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">02</span>
+                <h4 class="card-title">From Campus to Corporate</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 03 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/03 — Career Sprint.png" alt="03 — Career Sprint" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">03</span>
+                <h4 class="card-title">Career Sprint</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 04 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/04 — Proof of Work.png" alt="04 — Proof of Work" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">04</span>
+                <h4 class="card-title">Proof of Work</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 05 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/05 — Talent Readiness Engine.png" alt="05 — Talent Readiness Engine"
+                loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">05</span>
+                <h4 class="card-title">Talent Readiness Engine</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 06 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/06 — Build Your Tribe.png" alt="06 — Build Your Tribe" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">06</span>
+                <h4 class="card-title">Build Your Tribe</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 07 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/07 — Real Work, Real Impact.png" alt="07 — Real Work, Real Impact"
+                loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">07</span>
+                <h4 class="card-title">Real Work, Real Impact</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 08 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/08 — The Opportunity.png" alt="08 — The Opportunity" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">08</span>
+                <h4 class="card-title">The Opportunity</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 09 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/09 — Built on Ownership.png" alt="09 — Built on Ownership" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">09</span>
+                <h4 class="card-title">Built on Ownership</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 10 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/10 — Campus Energy.png" alt="10 — Campus Energy" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">10</span>
+                <h4 class="card-title">Campus Energy</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 11 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/11 — Ant of Giving.png" alt="11 — Ant of Giving" loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">11</span>
+                <h4 class="card-title">Ant of Giving</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Card 12 -->
+          <div class="gallery-card">
+            <div class="card-image-wrap">
+              <img src="assets/stock_images/12 — Future-Proof Talent.png" alt="12 — Future-Proof Talent"
+                loading="lazy" />
+            </div>
+            <div class="card-meta">
+              <div class="card-meta-left">
+                <span class="card-num">12</span>
+                <h4 class="card-title">Future-Proof Talent</h4>
+              </div>
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16">
+                  <path fill="currentColor" d="M5 19L19 5v12h2V3H9v2h12L5 19z" />
+                </svg>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+     STUDENT — CAREER READINESS
+     ============================================================ -->
+  <!-- ============================================================
+     STUDENT — CAREER READINESS (REDESIGNED)
+     ============================================================ -->
+  <section id="students" aria-label="For Students">
+    <div class="container">
+      <div class="two-col">
+
+        <!-- Left: Stacked Card Experience -->
+        <div class="reveal-left students-dash">
+          <p class="section-eyebrow">Student Profiles</p>
+          <h2 class="section-headline">
+            Showcase your<br><em class="accent-italic">readiness.</em>
+          </h2>
+          <div class="student-card-deck" id="studentDeck">
+
+            <!-- Card 1: Priya Sharma -->
+            <div class="deck-card active" data-card="1">
+              <!-- Header -->
+              <div class="dash-header">
+                <div class="dash-user">
+                  <div class="dash-avatar">PS</div>
+                  <div>
+                    <div class="dash-name">Priya Sharma</div>
+                    <div class="dash-role">B.Tech Computer Science · 3rd Year</div>
+                  </div>
+                </div>
+                <div class="dash-badge">Active Sprint</div>
+              </div>
+
+              <!-- Content: Readiness Score -->
+              <div class="score-card">
+                <div>
+                  <div class="score-label">Overall Readiness Score</div>
+                  <div class="score-number">88%</div>
+                </div>
+                <svg class="score-ring" viewBox="0 0 36 36">
+                  <circle class="ring-track" cx="18" cy="18" r="15.9155" />
+                  <circle class="ring-fill" cx="18" cy="18" r="15.9155" style="stroke-dasharray: 88 100;" />
+                </svg>
+              </div>
+
+              <!-- Skills -->
+              <div class="skill-list">
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">System Design</span>
+                    <span class="skill-pct">92%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" data-width="92"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Problem Solving</span>
+                    <span class="skill-pct">85%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" data-width="85"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Communication</span>
+                    <span class="skill-pct">78%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" data-width="78"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Rohan Mehta -->
+            <div class="deck-card" data-card="2">
+              <!-- Header -->
+              <div class="dash-header">
+                <div class="dash-user">
+                  <div class="dash-avatar" style="background: linear-gradient(135deg, #10b981 0%, #34d399 100%);">RM
+                  </div>
+                  <div>
+                    <div class="dash-name">Rohan Mehta</div>
+                    <div class="dash-role">B.Des UX/UI Design · 3rd Year</div>
+                  </div>
+                </div>
+                <div class="dash-badge"
+                  style="color: #10b981; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.15);">
+                  Validated</div>
+              </div>
+
+              <!-- Content: Readiness Score -->
+              <div class="score-card">
+                <div>
+                  <div class="score-label">Overall Readiness Score</div>
+                  <div class="score-number" style="color: #10b981;">91%</div>
+                </div>
+                <svg class="score-ring" viewBox="0 0 36 36">
+                  <circle class="ring-track" cx="18" cy="18" r="15.9155" />
+                  <circle class="ring-fill" cx="18" cy="18" r="15.9155"
+                    style="stroke: #10b981; stroke-dasharray: 91 100;" />
+                </svg>
+              </div>
+
+              <!-- Skills -->
+              <div class="skill-list">
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">User Research</span>
+                    <span class="skill-pct">88%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #10b981;" data-width="88"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Interaction Design</span>
+                    <span class="skill-pct">95%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #10b981;" data-width="95"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Prototyping</span>
+                    <span class="skill-pct">90%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #10b981;" data-width="90"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Anjali Gupta -->
+            <div class="deck-card" data-card="3">
+              <!-- Header -->
+              <div class="dash-header">
+                <div class="dash-user">
+                  <div class="dash-avatar" style="background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);">AG
+                  </div>
+                  <div>
+                    <div class="dash-name">Anjali Gupta</div>
+                    <div class="dash-role">M.S. Data Science · 2nd Year</div>
+                  </div>
+                </div>
+                <div class="dash-badge"
+                  style="color: #f59e0b; background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.15);">
+                  Active Sprint</div>
+              </div>
+
+              <!-- Content: Readiness Score -->
+              <div class="score-card">
+                <div>
+                  <div class="score-label">Overall Readiness Score</div>
+                  <div class="score-number" style="color: #f59e0b;">85%</div>
+                </div>
+                <svg class="score-ring" viewBox="0 0 36 36">
+                  <circle class="ring-track" cx="18" cy="18" r="15.9155" />
+                  <circle class="ring-fill" cx="18" cy="18" r="15.9155"
+                    style="stroke: #f59e0b; stroke-dasharray: 85 100;" />
+                </svg>
+              </div>
+
+              <!-- Skills -->
+              <div class="skill-list">
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Machine Learning</span>
+                    <span class="skill-pct">89%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #f59e0b;" data-width="89"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Statistical Modeling</span>
+                    <span class="skill-pct">82%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #f59e0b;" data-width="82"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Data Visualization</span>
+                    <span class="skill-pct">84%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #f59e0b;" data-width="84"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Kabir Verma -->
+            <div class="deck-card" data-card="4">
+              <!-- Header -->
+              <div class="dash-header">
+                <div class="dash-user">
+                  <div class="dash-avatar" style="background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);">KV
+                  </div>
+                  <div>
+                    <div class="dash-name">Kabir Verma</div>
+                    <div class="dash-role">B.Tech Info Technology · 4th Year</div>
+                  </div>
+                </div>
+                <div class="dash-badge"
+                  style="color: #3b82f6; background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.15);">
+                  Hire Ready</div>
+              </div>
+
+              <!-- Content: Readiness Score -->
+              <div class="score-card">
+                <div>
+                  <div class="score-label">Overall Readiness Score</div>
+                  <div class="score-number" style="color: #3b82f6;">93%</div>
+                </div>
+                <svg class="score-ring" viewBox="0 0 36 36">
+                  <circle class="ring-track" cx="18" cy="18" r="15.9155" />
+                  <circle class="ring-fill" cx="18" cy="18" r="15.9155"
+                    style="stroke: #3b82f6; stroke-dasharray: 93 100;" />
+                </svg>
+              </div>
+
+              <!-- Skills -->
+              <div class="skill-list">
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Software Engineering</span>
+                    <span class="skill-pct">96%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #3b82f6;" data-width="96"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Cloud Architectures</span>
+                    <span class="skill-pct">90%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #3b82f6;" data-width="90"></div>
+                  </div>
+                </div>
+                <div class="skill-item">
+                  <div class="skill-row">
+                    <span class="skill-name">Team Collaboration</span>
+                    <span class="skill-pct">92%</span>
+                  </div>
+                  <div class="skill-bar">
+                    <div class="skill-bar-fill" style="background: #3b82f6;" data-width="92"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Pagination Counter below the deck -->
+          <div class="deck-pagination-container">
+            <div class="deck-dots" id="deckDots">
+              <span class="deck-dot active" data-index="1"></span>
+              <span class="deck-dot" data-index="2"></span>
+              <span class="deck-dot" data-index="3"></span>
+              <span class="deck-dot" data-index="4"></span>
+            </div>
+            <div class="deck-counter">
+              <span id="deckCurrent">01</span> / <span id="deckTotal">04</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Content Panels (No emojis) -->
+        <div class="reveal-right students-content">
+          <p class="section-eyebrow">For Students</p>
+          <h2 class="section-headline">
+            Own your<br><em class="accent-italic">career story.</em>
+          </h2>
+
+          <div class="students-info-panels">
+
+            <!-- Panel 1: Real-World Experience -->
+            <div class="info-panel" id="panel-real-world">
+              <div class="info-panel-icon">
+                <!-- Minimal document/workflow symbol -->
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor"
+                    d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                </svg>
+              </div>
+              <div class="info-panel-content">
+                <h3 class="info-panel-title">Real-World Experience</h3>
+                <p class="info-panel-body">Work that goes beyond the classroom. Students contribute to meaningful briefs
+                  and practical challenges designed around how real teams actually work.</p>
+              </div>
+            </div>
+
+            <!-- Panel 2: Performance Validation -->
+            <div class="info-panel" id="panel-performance">
+              <div class="info-panel-icon">
+                <!-- Minimal analytics/signal/checkmark system -->
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor"
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                </svg>
+              </div>
+              <div class="info-panel-content">
+                <h3 class="info-panel-title">Performance Validation</h3>
+                <p class="info-panel-body">Signals built from demonstrated work. Readiness is informed by execution,
+                  problem-solving, collaboration, and the quality of actual output—not just credentials.</p>
+              </div>
+            </div>
+
+            <!-- Panel 3: Career Readiness -->
+            <div class="info-panel" id="panel-career">
+              <div class="info-panel-icon">
+                <!-- Minimal connected nodes, upward path, or opportunity symbol -->
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor"
+                    d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z" />
+                </svg>
+              </div>
+              <div class="info-panel-content">
+                <h3 class="info-panel-title">Career Readiness</h3>
+                <p class="info-panel-body">Evidence that moves careers forward. Validated experience and proof of work
+                  create stronger signals for opportunities and meaningful conversations with employers.</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+     CORPORATE / TRIBES (DARK)
+     ============================================================ -->
+  <section id="corporates" aria-label="For Enterprises" aria-labelledby="corp-heading">
+    <div class="container">
+      <div class="two-col-dark">
+
+        <!-- Left: Benefits -->
+        <div class="reveal-left">
+          <p class="dark-eyebrow">For Enterprises</p>
+          <h2 class="dark-headline" id="corp-heading">
+            Ready to build<br>your <em class="accent-italic">tribes?</em>
+          </h2>
+
+          <div class="benefit-list">
+
+            <div class="benefit-item">
+              <div class="benefit-icon-wrap" aria-hidden="true">🎯</div>
+              <div>
+                <h3 class="benefit-title">Pre-Validated Talent</h3>
+                <p class="benefit-body">Stop sifting through identical resumes. Access candidates who have already
+                  proven their skills on your specific briefs and problem statements.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon-wrap" aria-hidden="true">⚡</div>
+              <div>
+                <h3 class="benefit-title">Reduce Time-to-Hire</h3>
+                <p class="benefit-body">Identify high-potential candidates earlier in their academic journey and build
+                  relationships before they graduate — ahead of the competition.</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon-wrap" aria-hidden="true">📊</div>
+              <div>
+                <h3 class="benefit-title">Predictive Analytics</h3>
+                <p class="benefit-body">Leverage our AI readiness engine to predict a candidate's success rate in your
+                  specific corporate environment with measurable accuracy.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <a href="#cta" class="btn btn-white" id="corp-cta-btn">Hire with AntBox →</a>
+        </div>
+
+        <!-- Right: Tribe Analytics visualization -->
+        <div class="reveal-right">
+          <div class="tribe-viz">
+
+            <div class="tribe-viz-header">
+              <span class="tribe-viz-title">Tribe Analytics Engine</span>
+              <span class="tribe-live">
+                <span class="tribe-live-dot" aria-hidden="true"></span>
+                Live
+              </span>
+            </div>
+
+            <!-- Video container -->
+            <div class="tribe-video-container">
+              <video autoplay muted loop playsinline class="tribe-video">
+                <source src="https://ik.imagekit.io/n9uuondomb/AntBox_training/Team_discussing.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <div class="tribe-video-overlay"></div>
+            </div>
+
+            <!-- Stats row -->
+            <div class="tribe-stats">
+              <div class="tribe-stat">
+                <div class="tribe-stat-label">Pipeline Strength</div>
+                <div class="tribe-stat-value">1,000 <span class="accent">+ candidates</span></div>
+              </div>
+              <div class="tribe-stat">
+                <div class="tribe-stat-label">Avg Readiness</div>
+                <div class="tribe-stat-value">87<span class="accent">%</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+     WHY ANTBOX — SCROLL-DRIVEN BOX ANIMATION WITH TEXT OVERLAY
+     ============================================================ -->
+  <section id="why" aria-labelledby="why-heading">
+
+    <!-- Tall scroll spacer so scroll progress drives the animation -->
+    <div class="why-anim-sticky">
+
+      <!-- Loading overlay -->
+      <div id="box-anim-loader" aria-hidden="true">
+        <div class="box-loader-bar-wrap">
+          <div class="box-loader-bar" id="boxLoaderBar"></div>
+        </div>
+        <p class="box-loader-text">Loading…</p>
+      </div>
+
+      <!-- Canvas — frames rendered here -->
+      <canvas id="boxCanvas" aria-hidden="true"></canvas>
+
+      <!-- Text overlay — synced with scroll / frame progress -->
+      <div class="why-overlay" aria-label="Why AntBox">
+
+        <!-- Phase 0: Heading (visible from start, fades at ~30%) -->
+        <div class="why-overlay-head" id="whyOverlayHead">
+          <p class="section-eyebrow why-eyebrow">Why AntBox</p>
+          <h2 class="section-headline why-headline" id="why-heading">
+            Not a job board.<br>Not a course platform.<br>
+            <em class="accent-italic">Something new.</em>
+          </h2>
+        </div>
+
+        <!-- Phase 1: Card 1 — top-right, appears ~15-50% scroll -->
+        <div class="why-overlay-card" id="whyCard1" data-in="0.15" data-out="0.5" data-slide="-1">
+          <h3 class="why-title">Ecosystem, Not Silos</h3>
+          <p class="why-body">We connect academia, students, and enterprises in a single continuous loop. Learning
+            informs building, building informs validation, and validation leads to hiring.</p>
+        </div>
+
+        <!-- Phase 2: Card 2 — bottom-left, appears ~40-75% scroll -->
+        <div class="why-overlay-card" id="whyCard2" data-in="0.40" data-out="0.75" data-slide="1">
+          <h3 class="why-title">Proof Over Pedigree</h3>
+          <p class="why-body">Our AI readiness engine shifts focus from where you went to school to what you can
+            actually do. We measure capability, adaptability, and execution — not institution prestige.</p>
+        </div>
+
+        <!-- Phase 3: Card 3 — bottom-right, appears ~65% → stays -->
+        <div class="why-overlay-card" id="whyCard3" data-in="0.65" data-out="1.1" data-slide="1">
+          <h3 class="why-title">Action-Oriented</h3>
+          <p class="why-body">No passive video watching. AntBox requires active participation through sprints, live
+            briefs, and continuous feedback loops that simulate real work environments.</p>
+        </div>
+
+        <!-- Scroll hint -->
+        <div id="box-scroll-hint" aria-hidden="true">
+          <div class="box-hint-arrow"></div>
+          <span class="box-hint-label">Scroll to reveal</span>
+        </div>
+
+      </div><!-- /why-overlay -->
+
+      <!-- Particle text canvas — "Thinking Inside the Box" appears at end of animation -->
+      <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+    </div><!-- /why-anim-sticky -->
+  </section>
+
+
+  <!-- ============================================================
+     MASKED HEADING — VIDEO THROUGH TEXT
+     ============================================================ -->
+  <section id="masked-heading-section" aria-hidden="true">
+    <h2 id="maskedHeading" class="masked-heading"
+      style="text-align:center; font-weight:700; letter-spacing:-0.03em; line-height:1.06;">
+      <!-- Invisible measure layer for layout -->
+      <span class="masked-heading__measure" id="mhMeasure">
+        <span class="masked-heading__word" id="mhWord0">Built<i class="masked-heading__baseline"
+            id="mhBase0"></i></span>
+        <span class="masked-heading__word" id="mhWord1">for<i class="masked-heading__baseline" id="mhBase1"></i></span>
+        <span class="masked-heading__word" id="mhWord2">the<i class="masked-heading__baseline" id="mhBase2"></i></span>
+        <span class="masked-heading__word" id="mhWord3">Future<i class="masked-heading__baseline"
+            id="mhBase3"></i></span>
+      </span>
+
+      <!-- SVG clip path definition -->
+      <svg class="masked-heading__defs" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="mhClip" clipPathUnits="userSpaceOnUse">
+            <text id="mhG0">Built</text>
+            <text id="mhG1">for</text>
+            <text id="mhG2">the</text>
+            <text id="mhG3">Future</text>
+          </clipPath>
+        </defs>
+      </svg>
+
+      <!-- Reveal layer: video clipped through text -->
+      <span class="masked-heading__reveal" id="mhReveal">
+        <span class="masked-heading__clip" style="clip-path:url(#mhClip);">
+          <span class="masked-heading__media" id="mhMedia">
+            <video class="masked-heading__source"
+              src="https://ik.imagekit.io/tm5te9cjl/ff/Aerial%20view%20of%20sand%20beach.%20Top%20view%20sea%20waves.%20Drone%20footage%20-%20Nature%20video,%20HD%20-%204K%20(720p,%20h264).mp4?updatedAt=1788042662542"
+              autoplay muted loop playsinline></video>
+          </span>
+        </span>
+      </span>
+    </h2>
+  </section>
+
+  <!-- ============================================================
+     BOUNCE CARDS SECTION (INTERACTIVE GALLERY)
+     ============================================================ -->
+  <section id="bounce-cards-section" aria-label="AntBox interactive gallery">
+    <div class="bounceCardsScrollWrap">
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/01 — The Colony.png" alt="The Colony" />
+        <div class="card-title-overlay">The Colony</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/02 — From Campus to Corporate.png" alt="From Campus to Corporate" />
+        <div class="card-title-overlay">From Campus to Corporate</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/03 — Career Sprint.png" alt="Career Sprint" />
+        <div class="card-title-overlay">Career Sprint</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/04 — Proof of Work.png" alt="Proof of Work" />
+        <div class="card-title-overlay">Proof of Work</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/05 — Talent Readiness Engine.png" alt="Talent Readiness Engine" />
+        <div class="card-title-overlay">Talent Readiness Engine</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/06 — Build Your Tribe.png" alt="Build Your Tribe" />
+        <div class="card-title-overlay">Build Your Tribe</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/07 — Real Work, Real Impact.png" alt="Real Work, Real Impact" />
+        <div class="card-title-overlay">Real Work, Real Impact</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/08 — The Opportunity.png" alt="The Opportunity" />
+        <div class="card-title-overlay">The Opportunity</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/09 — Built on Ownership.png" alt="Built on Ownership" />
+        <div class="card-title-overlay">Built on Ownership</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/10 — Campus Energy.png" alt="Campus Energy" />
+        <div class="card-title-overlay">Campus Energy</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/11 — Ant of Giving.png" alt="Ant of Giving" />
+        <div class="card-title-overlay">Ant of Giving</div>
+      </div>
+      <div class="card" style="transform: scale(0);">
+        <img class="image" src="assets/stock_images/12 — Future-Proof Talent.png" alt="Future-Proof Talent" />
+        <div class="card-title-overlay">Future-Proof Talent</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+  <section id="cta" aria-labelledby="cta-heading">
+
+    <div class="cta-bg-art" id="ctaBg" aria-hidden="true">
+      <video autoplay muted loop playsinline
+        style="width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.42) contrast(1.05); opacity: 0.95;">
+        <source src="https://ik.imagekit.io/n9uuondomb/AntBox_training/Team_working.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="cta-glow-left" aria-hidden="true"></div>
+    <div class="cta-glow-right" aria-hidden="true"></div>
+
+    <div class="cta-inner reveal">
+      <p class="section-eyebrow" style="justify-content:center; margin-bottom:1.5rem;">Start Now</p>
+      <h2 class="cta-headline" id="cta-heading">
+        Your career doesn't start<br>at graduation. It starts
+        <em class="accent-italic">now.</em>
+      </h2>
+      <p class="cta-sub">
+        Join the platform that is reshaping how talent meets opportunity
+        — one sprint, one validation, one offer at a time.
+      </p>
+      <a href="#" class="btn btn-white" style="font-size:0.75rem; padding:1.1rem 2.5rem;" id="cta-main-btn">
+        Enter Platform →
+      </a>
+    </div>
+
+  </section>
+
+
+  <!-- ============================================================
+     FOOTER
+     ============================================================ -->
+  <footer id="footer" aria-label="Site footer">
+    <div class="container">
+
+      <div class="footer-inner">
+
+        <!-- Brand -->
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="assets/namedlogo.png" alt="AntBox" />
+          </div>
+          <p class="footer-tagline">
+            Future-proof talent infrastructure. Bridging campuses and
+            corporations through validated skill ecosystems.
+          </p>
+          <div class="footer-socials" aria-label="Social links">
+            <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-btn" aria-label="Email">✉</a>
+          </div>
+        </div>
+
+        <!-- Platform -->
+        <div>
+          <p class="footer-col-title">Platform</p>
+          <ul class="footer-links" role="list">
+            <li><a href="#students">For Students</a></li>
+            <li><a href="#corporates">For Enterprises</a></li>
+            <li><a href="#journey">Campus Journey</a></li>
+            <li><a href="#why">Why AntBox</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <p class="footer-col-title">Company</p>
+          <ul class="footer-links" role="list">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 AntBox. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Cookies</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Full-width animated brand footer -->
+    <div class="brand-footer-strip" id="brandFooterStrip" aria-hidden="true">
+      <div class="brand-footer-wordmark"><span class="wordmark-part part-ant">ANT</span><span
+          class="wordmark-part part-box">BOX</span></div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+     MINI CHAT BOX WINDOW
+     ============================================================ -->
+  <button class="chat-trigger" id="chatTrigger" aria-label="Open chat widget">
+    <svg class="chat-icon-svg" viewBox="0 0 24 24" width="24" height="24">
+      <path fill="currentColor"
+        d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z" />
+    </svg>
+  </button>
+
+  <div class="chat-window" id="chatWindow" aria-hidden="true">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <span class="chat-header-dot"></span>
+        <span class="chat-header-title">AntBox Assistant</span>
+      </div>
+      <button class="chat-close-btn" id="chatCloseBtn" aria-label="Close chat widget">&times;</button>
+    </div>
+
+    <div class="chat-body">
+      <div class="chat-lottie-container" id="chatLottie"></div>
+
+      <div class="chat-welcome" id="chatWelcome">
+        <h3 class="chat-welcome-title">Ask us anything</h3>
+        <p class="chat-welcome-text">What would you like to find out about your campus-to-corporate readiness journey?
+        </p>
+      </div>
+
+      <div class="chat-messages" id="chatMessages"></div>
+    </div>
+
+    <div class="chat-footer">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..." />
+      <button class="chat-send-btn" id="chatSendBtn" aria-label="Send message">
+        <svg viewBox="0 0 24 24" width="16" height="16">
+          <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
