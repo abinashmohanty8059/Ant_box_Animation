@@ -77,14 +77,14 @@ export default function ImageMorphPage() {
       x: (i) => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const R = vw < 768 ? 120 : Math.min(340, vw * 0.28, vh * 0.32);
+        const R = vw < 768 ? 110 : Math.min(300, vw * 0.25, vh * 0.29);
         const angle = (i / TOTAL_CARDS) * 2 * Math.PI;
         return R * Math.cos(angle);
       },
       y: (i) => {
         const vw = window.innerWidth;
         const vh = window.innerHeight;
-        const R = vw < 768 ? 120 : Math.min(340, vw * 0.28, vh * 0.32);
+        const R = vw < 768 ? 110 : Math.min(300, vw * 0.25, vh * 0.29);
         const angle = (i / TOTAL_CARDS) * 2 * Math.PI;
         return R * Math.sin(angle);
       },
@@ -180,10 +180,12 @@ export default function ImageMorphPage() {
         
         .morph-text-overlay {
           position: absolute;
+          bottom: 2vh;
+          left: 0;
+          width: 100%;
           z-index: 5;
           text-align: center;
           pointer-events: none;
-          max-width: 90%;
         }
         .morph-text-overlay h1 {
           font-size: clamp(1.8rem, 5vw, 3.8rem);
