@@ -48,7 +48,7 @@ export default function ImageMorphPage() {
       opacity: 0
     });
 
-    const introTimeline = gsap.timeline();
+    const introTimeline = gsap.timeline({ paused: true });
 
     // Fade in scatter cards
     introTimeline.to(cards, {
@@ -140,7 +140,16 @@ export default function ImageMorphPage() {
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
 
+    const entryObserver = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) {
+        introTimeline.play();
+        entryObserver.disconnect();
+      }
+    }, { threshold: 0.01 });
+    entryObserver.observe(container);
+
     return () => {
+      entryObserver.disconnect();
       window.removeEventListener('pointermove', handlePointerMove);
     };
   }, { scope: containerRef });
@@ -151,9 +160,9 @@ export default function ImageMorphPage() {
         .morph-page-container {
           position: relative;
           width: 100%;
-          min-height: 250vh;
-          background: #09090b;
-          color: #ffffff;
+          min-height: 145vh;
+          background: #ffffff;
+          color: #0f0f11;
           font-family: 'Poppins', sans-serif;
           overflow-x: hidden;
         }
@@ -182,16 +191,17 @@ export default function ImageMorphPage() {
           letter-spacing: -0.04em;
           margin-bottom: 0.5rem;
           line-height: 1.1;
+          color: #0f0f11;
         }
         .morph-text-overlay p {
           font-size: clamp(0.7rem, 2vw, 0.95rem);
-          color: rgba(255, 255, 255, 0.45);
+          color: rgba(15, 15, 17, 0.55);
           letter-spacing: 0.05em;
           text-transform: uppercase;
         }
         .morph-explore-title {
           font-family: 'Poppins', sans-serif;
-          background: linear-gradient(135deg, #c084fc, #818cf8);
+          background: linear-gradient(135deg, #7c3aed, #4f46e5);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
@@ -238,10 +248,10 @@ export default function ImageMorphPage() {
           backface-visibility: hidden;
           border-radius: 8px;
           overflow: hidden;
-          box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+          box-shadow: 0 8px 24px rgba(124, 58, 237, 0.12);
         }
         .morph-card-front {
-          background-color: #1c1c1e;
+          background-color: #f4f4f5;
         }
         .morph-card-front img {
           width: 100%;
@@ -261,41 +271,10 @@ export default function ImageMorphPage() {
           letter-spacing: 0.05em;
           border: 1px solid rgba(255, 255, 255, 0.25);
         }
-
-        .morph-back-nav {
-          position: absolute;
-          top: 2rem;
-          left: 2rem;
-          z-index: 10;
-        }
-        .morph-back-nav a {
-          text-decoration: none;
-          color: rgba(255, 255, 255, 0.6);
-          font-size: 0.75rem;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          transition: color 0.25s;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          padding: 0.6rem 1.2rem;
-          border-radius: 9999px;
-          background: rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(8px);
-        }
-        .morph-back-nav a:hover {
-          color: #ffffff;
-          border-color: #c084fc;
-        }
       `}</style>
 
       {/* STICKY VIEWPORT WRAP */}
       <div ref={viewportRef} className="morph-viewport">
-        {/* BACK TO HOMEPAGE NAV BUTTON */}
-        {import.meta.env.DEV && (
-          <div className="morph-back-nav">
-            <a href="/">← BACK TO ANT-BOX</a>
-          </div>
-        )}
-
         {/* INTRO TEXT BLOCK (Active at start) */}
         <div ref={introRef} className="morph-text-overlay" style={{ opacity: 1 }}>
           <h1>The future is built on AI.</h1>

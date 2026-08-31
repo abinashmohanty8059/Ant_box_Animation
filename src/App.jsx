@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import StatsMarquee from './components/StatsMarquee';
+import ImageMorphPage from './pages/ImageMorphPage';
 import JourneyPipeline from './components/JourneyPipeline';
 import TalentStories from './components/TalentStories';
 import StudentProfiles from './components/StudentProfiles';
@@ -15,20 +16,8 @@ import BounceCards from './components/BounceCards';
 import FinalCTA from './components/FinalCTA';
 import ChatWidget from './components/ChatWidget';
 import Footer from './components/Footer';
-import ImageMorphPage from './pages/ImageMorphPage';
 
 export default function App() {
-  const [path, setPath] = useState(window.location.pathname);
-
-  useEffect(() => {
-    const handleLocationChange = () => {
-      setPath(window.location.pathname);
-    };
-
-    window.addEventListener('popstate', handleLocationChange);
-    return () => window.removeEventListener('popstate', handleLocationChange);
-  }, []);
-
   useEffect(() => {
     // Initialize Lenis Smooth Scroll globally for the active viewport
     const lenis = new Lenis({
@@ -60,11 +49,7 @@ export default function App() {
       lenis.destroy();
       window.lenis = null;
     };
-  }, [path]); // Re-run when path changes to sync layout heights and ScrollTriggers
-
-  if (path === '/image-morph') {
-    return <ImageMorphPage />;
-  }
+  }, []);
 
   return (
     <>
@@ -79,36 +64,9 @@ export default function App() {
       <MaskedHeading />
       <BounceCards />
       <FinalCTA />
+      <ImageMorphPage />
       <ChatWidget />
       <Footer />
-
-      {import.meta.env.DEV && (
-        <div style={{
-          position: 'fixed',
-          bottom: '20px',
-          left: '20px',
-          zIndex: 99999,
-          background: 'rgba(124, 58, 237, 0.95)',
-          borderRadius: '9999px',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
-          border: '1px solid rgba(255,255,255,0.25)',
-          backdropFilter: 'blur(8px)',
-        }}>
-          <a href="/image-morph" style={{
-            display: 'block',
-            padding: '10px 20px',
-            color: '#ffffff',
-            textDecoration: 'none',
-            fontSize: '11px',
-            fontWeight: 'bold',
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase',
-            fontFamily: 'sans-serif'
-          }}>
-            IMAGE MORPH DEMO →
-          </a>
-        </div>
-      )}
     </>
   );
 }
