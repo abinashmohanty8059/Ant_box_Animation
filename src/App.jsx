@@ -6,11 +6,11 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import StatsMarquee from './components/StatsMarquee';
 import ImageMorphPage from './pages/ImageMorphPage';
-import JourneyPipeline from './components/JourneyPipeline';
+import JourneyBoxExperience from './components/JourneyBoxExperience';
 import TalentStories from './components/TalentStories';
 import StudentProfiles from './components/StudentProfiles';
 import Enterprises from './components/Enterprises';
-import WhyAntBox from './components/WhyAntBox';
+// import WhyAntBox from './components/WhyAntBox'; // kept on disk, replaced by JourneyBoxExperience
 import MaskedHeading from './components/MaskedHeading';
 import BounceCards from './components/BounceCards';
 import FinalCTA from './components/FinalCTA';
@@ -56,11 +56,10 @@ export default function App() {
       <Navbar />
       <Hero />
       <StatsMarquee />
-      <JourneyPipeline />
+      <JourneyBoxExperience />
       <TalentStories />
       <StudentProfiles />
       <Enterprises />
-      <WhyAntBox />
       <MaskedHeading />
       <BounceCards />
       <FinalCTA />

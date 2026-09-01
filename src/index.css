@@ -686,7 +686,496 @@ h4 {
 }
 
 /* ============================================================
-   FROM POTENTIAL TO PROOF (REDESIGNED)
+   JOURNEY BOX EXPERIENCE — 43/57 Split-Screen Story Composition
+   ============================================================ */
+
+#journey-box {
+  position: relative;
+  height: 480vh;
+  overflow: clip;
+  background: #ffffff;
+}
+
+.jbe-sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  background: #ffffff;
+}
+
+/* ── 43 / 57 Columns ───────────────────────────────────────── */
+.jbe-left-col {
+  position: relative;
+  width: 43vw;
+  height: 100vh;
+  border-right: 1px solid rgba(20, 20, 25, 0.06);
+  box-sizing: border-box;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.jbe-right-col {
+  position: relative;
+  width: 57vw;
+  height: 100vh;
+  overflow: hidden;
+  display: block;
+  z-index: 1;
+  background: radial-gradient(circle at center, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
+}
+
+/* ── Headline Block (Left Column Only) ─────────────────────── */
+.jbe-headline-block {
+  position: absolute;
+  top: max(4rem, 6vh);
+  left: clamp(25px, 3.5vw, 60px);
+  width: calc(100% - clamp(50px, 7vw, 120px));
+  max-width: 450px;
+  will-change: opacity, transform;
+  z-index: 7;
+}
+
+.jbe-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.jbe-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--purple);
+  opacity: 0.45;
+}
+
+.jbe-headline {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 2.9vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  color: var(--text);
+}
+
+.jbe-headline .accent-italic {
+  color: var(--purple);
+  font-style: italic;
+}
+
+/* ── SVG Path Wrapper (Left Column) ────────────────────────── */
+.jbe-zigzag-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.jbe-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+/* ── Checkpoint Node ───────────────────────────────────────── */
+.jbe-stage {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Checkpoint Circle: 76px x 76px desktop */
+.jbe-node-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid rgba(20, 20, 25, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  box-shadow: 0 4px 20px rgba(20, 20, 25, 0.06);
+  transition: background 0.35s ease, border-color 0.35s ease,
+              color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 5;
+}
+
+/* Active Checkpoint State */
+.jbe-node--active .jbe-node-icon {
+  background: #7C3AED;
+  border-color: #7C3AED;
+  color: #ffffff;
+  box-shadow: 0 0 0 10px rgba(124, 58, 237, 0.10), 0 10px 30px rgba(124, 58, 237, 0.22);
+  transform: scale(1.08);
+}
+
+/* Completed Checkpoint State */
+.jbe-node--completed .jbe-node-icon {
+  background: #7C3AED;
+  border-color: #7C3AED;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12), 0 6px 18px rgba(124, 58, 237, 0.20);
+  transform: scale(1);
+}
+
+/* Number Label Below Circle */
+.jbe-stage-num {
+  font-family: var(--font-heading);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.7;
+  transition: color 0.35s ease, opacity 0.35s ease;
+}
+
+.jbe-node--active .jbe-stage-num {
+  color: var(--purple);
+  opacity: 1;
+}
+
+.jbe-node--completed .jbe-stage-num {
+  color: var(--purple);
+  opacity: 0.75;
+}
+
+/* ── Story Cards (Left Column Only) ────────────────────────── */
+.jbe-stage-card {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(210px, 17vw, 260px);
+  background: rgba(255, 255, 255, 0.90);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(20, 20, 25, 0.08);
+  border-radius: 20px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(20, 20, 25, 0.05);
+  opacity: 0;
+  will-change: opacity, transform, filter;
+  transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease, border-color 0.35s ease;
+  pointer-events: auto;
+  z-index: 6;
+}
+
+.jbe-stage-card--left {
+  right: calc(100% + 20px);
+  text-align: right;
+}
+
+.jbe-stage-card--right {
+  left: calc(100% + 20px);
+  text-align: left;
+}
+
+.jbe-node--active .jbe-stage-card {
+  border-color: rgba(124, 58, 237, 0.22);
+  box-shadow: 0 12px 36px rgba(124, 58, 237, 0.10);
+}
+
+.jbe-stage-title {
+  font-family: var(--font-heading);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  line-height: 1.25;
+  transition: color 0.35s ease;
+}
+
+.jbe-node--active .jbe-stage-title {
+  color: var(--purple);
+}
+
+.jbe-stage-sub {
+  font-family: var(--font-body);
+  font-size: 0.78125rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.jbe-stage-desc {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  line-height: 1.58;
+  color: var(--muted);
+}
+
+.jbe-stage-label {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-family: var(--font-heading);
+  font-size: 0.525rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.26rem 0.7rem;
+  border-radius: var(--radius-full);
+  color: var(--purple);
+  background: var(--purple-dim);
+  border: 1px solid rgba(124, 58, 237, 0.20);
+}
+
+/* ── Canvas (Right Column Hero Product Visual) ──────────────── */
+.jbe-canvas {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  image-rendering: auto;
+  will-change: transform;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Loader ────────────────────────────────────────────────── */
+.jbe-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  z-index: 20;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.jbe-loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.jbe-loader-bar-wrap {
+  width: 200px;
+  height: 2px;
+  background: rgba(20, 20, 25, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.jbe-loader-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--purple);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+
+.jbe-loader-text {
+  font-family: var(--font-heading);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Scroll hint ───────────────────────────────────────────── */
+.jbe-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: clamp(25px, 3.5vw, 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  z-index: 4;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.jbe-scroll-hint.hidden { opacity: 0; }
+
+.jbe-hint-line {
+  width: 1px;
+  height: 2rem;
+  background: linear-gradient(to bottom, transparent, var(--purple));
+  animation: boxHintPulse 1.6s ease-in-out infinite;
+}
+
+.jbe-hint-label {
+  font-family: var(--font-body);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Responsive — Tablet (768px to 1100px) ─────────────────── */
+@media (max-width: 1100px) {
+  .jbe-left-col { width: 40vw; }
+  .jbe-right-col { width: 60vw; }
+
+  .jbe-node-icon {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .jbe-stage-card {
+    width: clamp(180px, 20vw, 220px);
+    padding: 16px 18px;
+  }
+
+  .jbe-stage-card--left { right: calc(100% + 14px); }
+  .jbe-stage-card--right { left: calc(100% + 14px); }
+
+  .jbe-stage-title { font-size: 1rem; }
+  .jbe-stage-desc { font-size: 0.78125rem; }
+}
+
+/* ── Responsive — Mobile (max 768px) ───────────────────────── */
+@media (max-width: 768px) {
+  #journey-box { height: 500vh; }
+
+  .jbe-sticky {
+    flex-direction: column;
+  }
+
+  .jbe-left-col {
+    width: 100vw;
+    height: 55vh;
+    border-right: none;
+    border-bottom: 1px solid rgba(20, 20, 25, 0.06);
+  }
+
+  .jbe-right-col {
+    width: 100vw;
+    height: 45vh;
+  }
+
+  .jbe-headline-block {
+    top: 2vh;
+    left: 20px;
+    width: calc(100% - 40px);
+  }
+
+  .jbe-headline { font-size: 1.5rem; }
+
+  .jbe-node-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .jbe-node-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .jbe-stage-card {
+    width: 140px;
+    padding: 12px 14px;
+  }
+
+  .jbe-stage-card--left { right: calc(100% + 10px); }
+  .jbe-stage-card--right { left: calc(100% + 10px); }
+
+  .jbe-stage-title { font-size: 0.875rem; }
+  .jbe-stage-sub { font-size: 0.75rem; margin-bottom: 0.2rem; }
+  .jbe-stage-desc { display: none; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   FROM POTENTIAL TO PROOF (REDESIGNED) — KEPT FOR REFERENCE
    ============================================================ */
 #journey {
   background: var(--surface);
