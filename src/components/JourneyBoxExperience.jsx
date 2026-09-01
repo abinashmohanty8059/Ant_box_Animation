@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import ParticleCanvas from './ParticleCanvas';
 import { useBoxFrames } from '../hooks/useBoxFrames';
+import TrueFocus from './ui/TrueFocus';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -92,7 +93,7 @@ const NODE_PATH_TARGETS = [0.10, 0.36, 0.60, 0.84];
 export default function JourneyBoxExperience() {
   const containerRef = useRef(null);
 
-  // Hero Product Box Hook with 1.18x zoom to crop excess white source margins while keeping physical box 100% visible
+  // Hero Product Box Hook
   const { canvasRef, loaderRef, loaderBarRef, drawFrameAtProgress } = useBoxFrames({
     maxFraction: 1.0,
     zoomFactor: 1.18,
@@ -273,10 +274,17 @@ export default function JourneyBoxExperience() {
           </h2>
         </div>
 
-        {/* 
-          Thinking outside the box...
-          (Commented out per user requirement 7)
-        */}
+        {/* OVERLAY: TRUEFOCUS "Thinking outside the box" ANIMATION */}
+        <div className="jbe-truefocus-block">
+          <TrueFocus
+            sentence="Thinking outside the box"
+            manualMode={false}
+            blurAmount={5}
+            borderColor="#5227FF"
+            animationDuration={0.5}
+            pauseBetweenAnimations={1}
+          />
+        </div>
 
         {/* OVERLAY: SINGLE CONTINUOUS SVG PATH & FLOATING CHECKPOINTS */}
         <div className="jbe-overlay-scene" aria-hidden="true">

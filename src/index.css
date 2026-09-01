@@ -795,6 +795,24 @@ h4 {
   font-style: italic;
 }
 
+/* ── TrueFocus Overlay Block ────────────────────────────────── */
+.jbe-truefocus-block {
+  position: absolute;
+  bottom: clamp(2rem, 5vh, 4rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  text-align: center;
+  pointer-events: none;
+  width: max-content;
+  max-width: 90vw;
+}
+
 /* ── Overlay Scene & SVG Path ──────────────────────────────── */
 .jbe-overlay-scene {
   position: absolute;
