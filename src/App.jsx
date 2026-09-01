@@ -9,6 +9,8 @@ import ImageMorphPage from './pages/ImageMorphPage';
 import JourneyBoxExperience from './components/JourneyBoxExperience';
 import ProofOfWorkSection from './components/ProofOfWorkSection';
 import TalentProfileSection from './components/TalentProfileSection';
+import StrongerSignalsSection from './components/StrongerSignalsSection';
+import ContinuousLoopSection from './components/ContinuousLoopSection';
 import TalentStories from './components/TalentStories';
 import StudentProfiles from './components/StudentProfiles';
 import Enterprises from './components/Enterprises';
@@ -61,6 +63,9 @@ export default function App() {
       <JourneyBoxExperience />
       <ProofOfWorkSection />
       <TalentProfileSection />
+      <StrongerSignalsSection />
+      <ContinuousLoopSection />
+      <ImageMorphPage />
       <TalentStories />
       <StudentProfiles />
       <Enterprises />
