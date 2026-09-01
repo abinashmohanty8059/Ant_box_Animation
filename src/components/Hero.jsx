@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import BallpitCanvas from './BallpitCanvas';
+// import BallpitCanvas from './BallpitCanvas';
 
 export default function Hero() {
   const heroRef = useRef(null);
@@ -51,8 +51,8 @@ export default function Hero() {
       {/* Gradient overlay for readability */}
       <div className="hero-overlay" aria-hidden="true"></div>
 
-      {/* Ballpit physics canvas */}
-      <BallpitCanvas />
+      {/* Ballpit physics canvas (commented out) */}
+      {/* <BallpitCanvas /> */}
 
       {/* Content */}
       <div className="hero-content" id="heroContent">
