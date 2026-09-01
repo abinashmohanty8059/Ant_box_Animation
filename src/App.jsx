@@ -7,6 +7,8 @@ import Hero from './components/Hero';
 import StatsMarquee from './components/StatsMarquee';
 import ImageMorphPage from './pages/ImageMorphPage';
 import JourneyBoxExperience from './components/JourneyBoxExperience';
+import ProofOfWorkSection from './components/ProofOfWorkSection';
+import TalentProfileSection from './components/TalentProfileSection';
 import TalentStories from './components/TalentStories';
 import StudentProfiles from './components/StudentProfiles';
 import Enterprises from './components/Enterprises';
@@ -57,6 +59,8 @@ export default function App() {
       <Hero />
       <StatsMarquee />
       <JourneyBoxExperience />
+      <ProofOfWorkSection />
+      <TalentProfileSection />
       <TalentStories />
       <StudentProfiles />
       <Enterprises />
