@@ -11,6 +11,7 @@ import ProofOfWorkSection from './components/ProofOfWorkSection';
 import TalentProfileSection from './components/TalentProfileSection';
 import StrongerSignalsSection from './components/StrongerSignalsSection';
 import ContinuousLoopSection from './components/ContinuousLoopSection';
+import HoverSignalsSection from './components/HoverSignalsSection';
 import TalentStories from './components/TalentStories';
 import StudentProfiles from './components/StudentProfiles';
 import Enterprises from './components/Enterprises';
@@ -66,6 +67,7 @@ export default function App() {
       <StrongerSignalsSection />
       <ContinuousLoopSection />
       <ImageMorphPage />
+      <HoverSignalsSection />
       <TalentStories />
       <StudentProfiles />
       <Enterprises />
