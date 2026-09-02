@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import SplashScreen from './components/SplashScreen';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import StatsMarquee from './components/StatsMarquee';
@@ -15,7 +16,6 @@ import HoverSignalsSection from './components/HoverSignalsSection';
 import TalentStories from './components/TalentStories';
 import StudentProfiles from './components/StudentProfiles';
 import Enterprises from './components/Enterprises';
-// import WhyAntBox from './components/WhyAntBox'; // kept on disk, replaced by JourneyBoxExperience
 import MaskedHeading from './components/MaskedHeading';
 import BounceCards from './components/BounceCards';
 import FinalCTA from './components/FinalCTA';
@@ -23,6 +23,8 @@ import ChatWidget from './components/ChatWidget';
 import Footer from './components/Footer';
 
 export default function App() {
+  const [splashComplete, setSplashComplete] = useState(false);
+
   useEffect(() => {
     // Initialize Lenis Smooth Scroll globally for the active viewport
     const lenis = new Lenis({
@@ -56,8 +58,21 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!splashComplete) {
+      document.body.style.overflow = 'hidden';
+      if (window.lenis) window.lenis.stop();
+    } else {
+      document.body.style.overflow = '';
+      if (window.lenis) window.lenis.start();
+    }
+  }, [splashComplete]);
+
   return (
     <>
+      {!splashComplete && (
+        <SplashScreen onComplete={() => setSplashComplete(true)} />
+      )}
       <Navbar />
       <Hero />
       <StatsMarquee />
